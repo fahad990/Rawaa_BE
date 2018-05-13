@@ -27,7 +27,7 @@ admin.initializeApp({
 //         console.log("Error sending message:", error);
 //     });
 
-export async function send(userId, title, body,subject) {
+export async function send(userId, title, body) {
     console.log(userId)
     let user = await User.findById(userId);
     let tokens = user.pushTokens;

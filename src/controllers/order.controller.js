@@ -66,15 +66,18 @@ export default {
             objectToCreated.price = req.body.price;
             let newOrder = await Order.create(objectToCreated);
 
-            //send notifications
-            send(newOrder.provider, "لديك طلب جديد ", 'new Order', result)
-
             //in app notification 
             let newNoti = await NotificationOrder.create({
                 targetUser: newOrder.provider,
                 order: newOrder,
                 text: 'لديك طلب جديد',
             });
+
+            //send notifications
+            let title = "لديك طلب جديد";
+            let body = "new Order"
+            send(newOrder.provider, title, body,newOrder)
+
 
             //prepare response    
             let retriveOrder = await Order.findById(newOrder.id)
@@ -305,15 +308,14 @@ export default {
 
             let newOrder = await Order.findByIdAndUpdate(orderId, { status: "accepted" }, { new: true });
 
-            //send notification to client
-            send(newOrder.customer, "your Order is accepted", 'ACCepted', newOrder)
-
             //inApp notificattion 
             let newNoti = await NotificationOrder.create({
                 targetUser: newOrder.customer,
                 order: newOrder,
                 text: 'your Order is accepted'
             })
+            //send notification to client
+            send(newOrder.customer, "your Order is accepted", 'ACCepted', newOrder)
 
             console.log(newOrder.status)
 
@@ -361,7 +363,9 @@ export default {
                 return next(new ApiError(403, "not access to this operation"))
             let newOrder = await Order.findByIdAndUpdate(orderId, { status: "onTheWay" }, { new: true });
             //send notification to provider by completed order 
-            send(newOrder.customer, "Your Order On The Way ", 'wait it plz', newOrder)
+            let title = "Your Order On The Way";
+            let body = "wait it plz"
+            send(newOrder.customer, title, body)
             //inApp notification 
             let newNoti = await NotificationOrder.create({
                 targetUser: newOrder.customer,
