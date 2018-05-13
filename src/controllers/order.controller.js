@@ -1,10 +1,11 @@
 import Order from '../models/order.model'
 import mongoose from 'mongoose';
 import { body, validationResult } from 'express-validator/check';
-import ApiError from '../helpers/ApiError'
-import ApiResponse from '../helpers/ApiResponse'
-import Price from '../models/price-of-km.model'
-import { send } from '../services/push-notifications'
+import ApiError from '../helpers/ApiError';
+import ApiResponse from '../helpers/ApiResponse';
+import Price from '../models/price-of-km.model';
+import { send } from '../services/push-notifications';
+import NotificationOrder from '../models/notification.model';
 
 
 let deg2rad = (deg) => {
@@ -93,9 +94,9 @@ export default {
                 let quantityOfBuying = resultGalonsQuantityOfBuying[x];
                 let quantityOfSubstitution = resultGalonsQuantityOfSubstitution[x];
                 result.galons.push({
-                    "item": item,
-                    "quantityOfBuying": quantityOfBuying,
-                    "typeOrderOfSubstitution": quantityOfSubstitution
+                    item: item,
+                    quantityOfBuying: quantityOfBuying,
+                    typeOrderOfSubstitution: quantityOfSubstitution
                 })
             }
             result.price = retriveOrder.price;
@@ -106,7 +107,13 @@ export default {
             result.creationDate = retriveOrder.creationDate;
             result.id = retriveOrder.id
             //send notifications 
-            send(newOrder.provider, "لديك طلب جديد ", result)
+            send(newOrder.provider, "لديك طلب جديد ", 'new Order',result)
+            //in app notification 
+            newNoti = await NotificationOrder.create({
+                targetUser: newOrder.provider,
+                order: newOrder,
+                text: 'لديك طلب جديد',
+            });
             return res.status(201).json(result)
         } catch (err) {
             next(err)
@@ -239,7 +246,7 @@ export default {
                 .populate('provider')
             if (!retriveOrder)
                 return res.status(404).end()
-            let lenOfCartons = await retriveOrder.cartons.length;
+            let lenOfCartons = retriveOrder.cartons.length;
             let result = {};
             result.cartons = []
             //prepare cartons 
@@ -251,7 +258,7 @@ export default {
                 result.cartons.push({ "item": item, "quantity": quantityItem })
             }
             //prepare galons 
-            let lenOfGalons = await retriveOrder.galons.length;
+            let lenOfGalons = retriveOrder.galons.length;
             result.galons = [];
             let resultGalons = retriveOrder.galons;
             let resultGalonsQuantityOfBuying = retriveOrder.galonsQuantityOfBuying;
@@ -292,7 +299,13 @@ export default {
             let newOrder = await Order.findByIdAndUpdate(orderId, { status: "accepted" }, { new: true });
             console.log(newOrder.status)
             //send notification to client
-            send(newOrder.customer, "your Order is accepted", newOrder)
+            send(newOrder.customer, "your Order is accepted", 'ACCepted' ,newOrder)
+            //inApp notificattion 
+            let newNoti = await NotificationOrder.create({
+                targetUser: newOrder.customer,
+                order: newOrder,
+                text: 'your Order is accepted'
+            })
             return res.status(204).end();
         } catch (err) {
             next(err)
@@ -312,7 +325,13 @@ export default {
             let newOrder = await Order.findByIdAndUpdate(orderId, { status: "rejected" }, { new: true });
             console.log(newOrder.status)
             //send notification to client
-            send(newOrder.customer, "نعتذر لعدم قبول طلبك", newOrder)
+            send(newOrder.customer, "نعتذر لعدم قبول طلبك", 'So Soory about That', newOrder)
+            //inApp notification 
+            let newNoti = await NotificationOrder.create({
+                targetUser: newOrder.customer,
+                order: newOrder,
+                text: 'نعتذر لعدم قبول طلبك'
+            })
             return res.status(204).end();
         } catch (err) {
             next(err)
@@ -332,7 +351,13 @@ export default {
             let newOrder = await Order.findByIdAndUpdate(orderId, { status: "onTheWay" }, { new: true });
             console.log(newOrder.status)
             //send notification to provider by completed order 
-            send(newOrder.customer, "Your Order On The Way ", newOrder)
+            send(newOrder.customer, "Your Order On The Way ", 'wait it plz', newOrder)
+            //inApp notification 
+            let newNoti = await NotificationOrder.create({
+                targetUser: newOrder.customer,
+                order: newOrder,
+                text: 'Your Order On The Way'
+            })
             return res.status(204).end();
         } catch (err) {
             next(err)
@@ -351,7 +376,13 @@ export default {
             let newOrder = await Order.findByIdAndUpdate(orderId, { status: "delivered" }, { new: true });
             console.log(newOrder.status)
             //send notification to provider by completed order 
-            send(newOrder.provider, "لقد تم اتمام الطلب بنجاح ", newOrder)
+            send(orderDetails.provider, "لقد تم اتمام الطلب بنجاح ", 'congratulations', newOrder)
+            //inApp notification 
+            let newNoti = await NotificationOrder.create({
+                targetUser: newOrder.provider,
+                order: newOrder,
+                text: 'لقد تم اتمام الطلب بنجاح'
+            })
             return res.status(204).end();
         } catch (err) {
             next(err)

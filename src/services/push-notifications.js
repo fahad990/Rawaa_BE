@@ -9,7 +9,7 @@ admin.initializeApp({
 });
 
 //push manual notification
-// admin.messaging().sendToDevice(['fi8EKJAJaaM:APA91bFdooPqy5hZ3cRIsL4S46Jk-Nf6TxrD9DF-Wk_8BXTt-CJSXM1Itgm77aneUvpTZ5mhjBpGG1HhlhLcPkXLn6CpxMB6QdzR4RCj5exe0QoBwkEuWXSM9KkjfDXH5g0WHtwjKCj8'],
+// admin.messaging().sendToDevice(['06WxbUmLV8:APA91bHe16K975o1RxFZjxxPOxl0y96fnnQYBqbkXWF1JvC3qSUbZdPfTAU2XEfiP3OLHptgfc82k0F9TORnwT2UKXGYy88EPoMKvnolSTUkwT2lwTIFS3jTmUaW1CCw7aXps2fzpMFK'],
 //     {
 //         notification: {
 //             title: "dsdsd",
@@ -27,8 +27,8 @@ admin.initializeApp({
 //         console.log("Error sending message:", error);
 //     });
 
-export async function send(userId, title, body) {
-
+export async function send(userId, title, body,subject) {
+    console.log(userId)
     let user = await User.findById(userId);
     let tokens = user.pushTokens;
 
@@ -37,9 +37,9 @@ export async function send(userId, title, body) {
             title, body,
             icon: "https://image.flaticon.com/icons/png/128/148/148921.png"
         },
-        // data: {
-        //     subject, subjectId
-        // }
+        data: {
+            subject
+        }
     }
 
 

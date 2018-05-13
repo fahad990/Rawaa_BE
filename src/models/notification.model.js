@@ -4,13 +4,25 @@ import autoIncrement from 'mongoose-auto-increment';
 const NotificationSchema = new Schema({
     targetUser: {
         type: Number,
-        ref : 'user',
+        ref: 'user',
         required: true
     },
-    order : {
-        type : Number,
-        ref : 'order'
-
+    order: {
+        type: Number,
+        ref: 'order',
+        required: true
+    },
+    text: {
+        type: String,
+        required: true
+    },
+    seen: {
+        type: Boolean,
+        default: false
+    },
+    creationDate: {
+        type: Date,
+        default: Date.now
     }
 })
 
