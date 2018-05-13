@@ -8,6 +8,7 @@ export default {
    //retrive all notification of one custome 
    async retriveAllNotification(req, res, next){
     try {
+        let userId = req.params.userId;
         
     } catch (err) {
         next(err)

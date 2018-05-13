@@ -65,6 +65,17 @@ export default {
             objectToCreated.customer = req.user.id;
             objectToCreated.price = req.body.price;
             let newOrder = await Order.create(objectToCreated);
+
+            //send notifications
+            send(newOrder.provider, "لديك طلب جديد ", 'new Order', result)
+
+            //in app notification 
+            let newNoti = await NotificationOrder.create({
+                targetUser: newOrder.provider,
+                order: newOrder,
+                text: 'لديك طلب جديد',
+            });
+
             //prepare response    
             let retriveOrder = await Order.findById(newOrder.id)
                 .populate('cartons')
@@ -106,14 +117,8 @@ export default {
             result.status = retriveOrder.status;
             result.creationDate = retriveOrder.creationDate;
             result.id = retriveOrder.id
-            //send notifications 
-            send(newOrder.provider, "لديك طلب جديد ", 'new Order',result)
-            //in app notification 
-            newNoti = await NotificationOrder.create({
-                targetUser: newOrder.provider,
-                order: newOrder,
-                text: 'لديك طلب جديد',
-            });
+
+
             return res.status(201).json(result)
         } catch (err) {
             next(err)
@@ -294,18 +299,24 @@ export default {
             if (!orderDetails)
                 return res.status(404).end();
             let provider = orderDetails.provider;
+
             if (!(provider == req.user.id))
                 return next(new ApiError(403, "not access to this operation"))
+
             let newOrder = await Order.findByIdAndUpdate(orderId, { status: "accepted" }, { new: true });
-            console.log(newOrder.status)
+
             //send notification to client
-            send(newOrder.customer, "your Order is accepted", 'ACCepted' ,newOrder)
+            send(newOrder.customer, "your Order is accepted", 'ACCepted', newOrder)
+
             //inApp notificattion 
             let newNoti = await NotificationOrder.create({
                 targetUser: newOrder.customer,
                 order: newOrder,
                 text: 'your Order is accepted'
             })
+
+            console.log(newOrder.status)
+
             return res.status(204).end();
         } catch (err) {
             next(err)
@@ -349,15 +360,16 @@ export default {
             if (!(provider == req.user.id))
                 return next(new ApiError(403, "not access to this operation"))
             let newOrder = await Order.findByIdAndUpdate(orderId, { status: "onTheWay" }, { new: true });
-            console.log(newOrder.status)
             //send notification to provider by completed order 
             send(newOrder.customer, "Your Order On The Way ", 'wait it plz', newOrder)
             //inApp notification 
             let newNoti = await NotificationOrder.create({
                 targetUser: newOrder.customer,
-                order: newOrder,
+                order: newOrder.id,
                 text: 'Your Order On The Way'
             })
+            console.log(newOrder.status)
+
             return res.status(204).end();
         } catch (err) {
             next(err)
@@ -374,15 +386,16 @@ export default {
             if (!(customer == req.user.id))
                 return next(new ApiError(403, "not access to this operation"))
             let newOrder = await Order.findByIdAndUpdate(orderId, { status: "delivered" }, { new: true });
-            console.log(newOrder.status)
             //send notification to provider by completed order 
             send(orderDetails.provider, "لقد تم اتمام الطلب بنجاح ", 'congratulations', newOrder)
             //inApp notification 
             let newNoti = await NotificationOrder.create({
                 targetUser: newOrder.provider,
-                order: newOrder,
+                order: newOrder.id,
                 text: 'لقد تم اتمام الطلب بنجاح'
             })
+            console.log(newOrder.status)
+
             return res.status(204).end();
         } catch (err) {
             next(err)
