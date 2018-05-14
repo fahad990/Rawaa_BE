@@ -22,15 +22,17 @@ var _provider = require('../controllers/provider.controller');
 
 var _provider2 = _interopRequireDefault(_provider);
 
+var _checkBlockUser = require('../helpers/check-block-user');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var requireSignIn = _passport2.default.authenticate('local', { session: false });
 var requireAuth = _passport2.default.authenticate('jwt', { session: false });
 var router = _express2.default.Router();
 
-router.route('/:providerId/orders/un-completed').get(requireAuth, _provider2.default.unCompletedOrderOfOneProvider);
+router.route('/:providerId/orders/un-completed').get(requireAuth, _checkBlockUser.checkBlockUser, _provider2.default.unCompletedOrderOfOneProvider);
 
-router.route('/:providerId/orders/completed').get(requireAuth, _provider2.default.completedOrderOfOneProvider);
+router.route('/:providerId/orders/completed').get(requireAuth, _checkBlockUser.checkBlockUser, _provider2.default.completedOrderOfOneProvider);
 
 exports.default = router;
 //# sourceMappingURL=providers.route.js.map

@@ -38,6 +38,8 @@ var _pushNotification = require('./push-notification.route');
 
 var _pushNotification2 = _interopRequireDefault(_pushNotification);
 
+var _checkBlockUser = require('../helpers/check-block-user');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var requireSignIn = _passport2.default.authenticate('local', { session: false });
@@ -52,11 +54,11 @@ router.post("/signin", requireSignIn, _user2.default.signin);
 
 router.route("/users/:userId/galons").get(requireAuth, _galon2.default.galonsOfOneProvider);
 
-router.route("/users/:userId/cartons").get(requireAuth, _cartona2.default.cartonsOfOneProvider);
+router.route("/users/:userId/cartons").get(requireAuth, _checkBlockUser.checkBlockUser, _cartona2.default.cartonsOfOneProvider);
 
-router.route("/users/:userId/notification").get(requireAuth, _notification2.default.retriveAllNotification);
+router.route("/users/:userId/notification").get(requireAuth, _checkBlockUser.checkBlockUser, _notification2.default.retriveAllNotification);
 
-router.route('/users/:userId/orders/completed').get(requireAuth, _user2.default.completedOrderOfOneUser);
-router.route('/users/:userId/orders/un-completed').get(requireAuth, _user2.default.unCompletedOrderOfOneUser);
+router.route('/users/:userId/orders/completed').get(requireAuth, _checkBlockUser.checkBlockUser, _user2.default.completedOrderOfOneUser);
+router.route('/users/:userId/orders/un-completed').get(requireAuth, _checkBlockUser.checkBlockUser, _user2.default.unCompletedOrderOfOneUser);
 exports.default = router;
 //# sourceMappingURL=user.route.js.map
