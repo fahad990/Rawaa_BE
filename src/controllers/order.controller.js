@@ -76,7 +76,7 @@ export default {
             //send notifications
             let title = "لديك طلب جديد";
             let body = "new Order"
-            send(newOrder.provider, title, body,newOrder)
+            send(newOrder.provider, title, body)
 
 
             //prepare response    
@@ -315,7 +315,9 @@ export default {
                 text: 'your Order is accepted'
             })
             //send notification to client
-            send(newOrder.customer, "your Order is accepted", 'ACCepted', newOrder)
+            let title = "your Order is accepted";
+            let body = 'Accepted'
+            send(newOrder.customer, title, body)
 
             console.log(newOrder.status)
 
@@ -337,8 +339,12 @@ export default {
                 return next(new ApiError(403, "not access to this operation"))
             let newOrder = await Order.findByIdAndUpdate(orderId, { status: "rejected" }, { new: true });
             console.log(newOrder.status)
+
             //send notification to client
-            send(newOrder.customer, "نعتذر لعدم قبول طلبك", 'So Soory about That', newOrder)
+            let title = "نعتذر لعدم قبول طلبك";
+            let body = 'So Soory about That';
+            send(newOrder.customer, title, body)
+
             //inApp notification 
             let newNoti = await NotificationOrder.create({
                 targetUser: newOrder.customer,
@@ -390,14 +396,19 @@ export default {
             if (!(customer == req.user.id))
                 return next(new ApiError(403, "not access to this operation"))
             let newOrder = await Order.findByIdAndUpdate(orderId, { status: "delivered" }, { new: true });
-            //send notification to provider by completed order 
-            send(orderDetails.provider, "لقد تم اتمام الطلب بنجاح ", 'congratulations', newOrder)
+
             //inApp notification 
             let newNoti = await NotificationOrder.create({
                 targetUser: newOrder.provider,
                 order: newOrder.id,
                 text: 'لقد تم اتمام الطلب بنجاح'
             })
+
+            //send notification to provider by completed order 
+            let body = 'congratulations';
+            let title = "لقد تم اتمام الطلب بنجاح "
+            send(orderDetails.provider, title, body)
+            
             console.log(newOrder.status)
 
             return res.status(204).end();

@@ -37,9 +37,9 @@ export async function send(userId, title, body) {
             title, body,
             icon: "https://image.flaticon.com/icons/png/128/148/148921.png"
         },
-        data: {
-            subject
-        }
+        // data: {
+        //     subject
+        // }
     }
 
 
