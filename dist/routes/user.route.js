@@ -16,6 +16,10 @@ var _cartona = require('../controllers/cartona/cartona.controller');
 
 var _cartona2 = _interopRequireDefault(_cartona);
 
+var _notification = require('../controllers/notification.controller');
+
+var _notification2 = _interopRequireDefault(_notification);
+
 var _express = require('express');
 
 var _express2 = _interopRequireDefault(_express);
@@ -49,6 +53,8 @@ router.post("/signin", requireSignIn, _user2.default.signin);
 router.route("/users/:userId/galons").get(requireAuth, _galon2.default.galonsOfOneProvider);
 
 router.route("/users/:userId/cartons").get(requireAuth, _cartona2.default.cartonsOfOneProvider);
+
+router.route("/users/:userId/notification").get(requireAuth, _notification2.default.retriveAllNotification);
 
 router.route('/users/:userId/orders/completed').get(requireAuth, _user2.default.completedOrderOfOneUser);
 router.route('/users/:userId/orders/un-completed').get(requireAuth, _user2.default.unCompletedOrderOfOneUser);

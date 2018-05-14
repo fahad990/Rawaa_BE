@@ -22,8 +22,20 @@ var NotificationSchema = new _mongoose.Schema({
     },
     order: {
         type: Number,
-        ref: 'order'
-
+        ref: 'order',
+        required: true
+    },
+    text: {
+        type: String,
+        required: true
+    },
+    seen: {
+        type: Boolean,
+        default: false
+    },
+    creationDate: {
+        type: Date,
+        default: Date.now
     }
 });
 

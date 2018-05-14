@@ -28,6 +28,10 @@ var _priceOfKm2 = _interopRequireDefault(_priceOfKm);
 
 var _pushNotifications = require('../services/push-notifications');
 
+var _notification = require('../models/notification.model');
+
+var _notification2 = _interopRequireDefault(_notification);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -47,7 +51,7 @@ exports.default = {
         var _this = this;
 
         return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-            var validationErrors, objectToCreated, cartonsArray, cartons, cartonsQuantity, x, galonsArray, galons, galonsQuantityOfBuying, galonsQuantityOfSubstitution, galonsType, z, lang, lat, orderLocation, newOrder, retriveOrder, lenOfCartons, result, resultcartons, resultcartonsQuantity, _x2, item, quantityItem, lenOfGalons, resultGalons, resultGalonsQuantityOfBuying, resultGalonsQuantityOfSubstitution, resultGalonsTypeOrder, _x3, _item, quantityOfBuying, quantityOfSubstitution;
+            var validationErrors, objectToCreated, cartonsArray, cartons, cartonsQuantity, x, galonsArray, galons, galonsQuantityOfBuying, galonsQuantityOfSubstitution, galonsType, z, lang, lat, orderLocation, newOrder, newNoti, title, _body, retriveOrder, lenOfCartons, result, resultcartons, resultcartonsQuantity, _x2, item, quantityItem, lenOfGalons, resultGalons, resultGalonsQuantityOfBuying, resultGalonsQuantityOfSubstitution, resultGalonsTypeOrder, _x3, _item, quantityOfBuying, quantityOfSubstitution;
 
             return regeneratorRuntime.wrap(function _callee$(_context) {
                 while (1) {
@@ -113,14 +117,32 @@ exports.default = {
                         case 16:
                             newOrder = _context.sent;
                             _context.next = 19;
-                            return _order2.default.findById(newOrder.id).populate('cartons').populate('galons').populate('customer').populate('provider');
+                            return _notification2.default.create({
+                                targetUser: newOrder.provider,
+                                order: newOrder,
+                                text: 'لديك طلب جديد'
+                            });
 
                         case 19:
+                            newNoti = _context.sent;
+
+
+                            //send notifications
+                            title = "لديك طلب جديد";
+                            _body = "new Order";
+
+                            (0, _pushNotifications.send)(newOrder.provider, title, _body);
+
+                            //prepare response    
+                            _context.next = 25;
+                            return _order2.default.findById(newOrder.id).populate('cartons').populate('galons').populate('customer').populate('provider');
+
+                        case 25:
                             retriveOrder = _context.sent;
-                            _context.next = 22;
+                            _context.next = 28;
                             return retriveOrder.cartons.length;
 
-                        case 22:
+                        case 28:
                             lenOfCartons = _context.sent;
                             result = {};
 
@@ -136,10 +158,10 @@ exports.default = {
                                 result.cartons.push({ "item": item, "quantity": quantityItem });
                             }
                             //prepare galons 
-                            _context.next = 30;
+                            _context.next = 36;
                             return retriveOrder.galons.length;
 
-                        case 30:
+                        case 36:
                             lenOfGalons = _context.sent;
 
                             result.galons = [];
@@ -154,9 +176,9 @@ exports.default = {
                                 quantityOfSubstitution = resultGalonsQuantityOfSubstitution[_x3];
 
                                 result.galons.push({
-                                    "item": _item,
-                                    "quantityOfBuying": quantityOfBuying,
-                                    "typeOrderOfSubstitution": quantityOfSubstitution
+                                    item: _item,
+                                    quantityOfBuying: quantityOfBuying,
+                                    typeOrderOfSubstitution: quantityOfSubstitution
                                 });
                             }
                             result.price = retriveOrder.price;
@@ -166,22 +188,21 @@ exports.default = {
                             result.status = retriveOrder.status;
                             result.creationDate = retriveOrder.creationDate;
                             result.id = retriveOrder.id;
-                            //send notifications 
-                            (0, _pushNotifications.send)(newOrder.provider, "لديك طلب جديد ", result);
+
                             return _context.abrupt('return', res.status(201).json(result));
 
-                        case 48:
-                            _context.prev = 48;
+                        case 53:
+                            _context.prev = 53;
                             _context.t0 = _context['catch'](0);
 
                             next(_context.t0);
 
-                        case 51:
+                        case 56:
                         case 'end':
                             return _context.stop();
                     }
                 }
-            }, _callee, _this, [[0, 48]]);
+            }, _callee, _this, [[0, 53]]);
         }))();
     },
 
@@ -370,11 +391,7 @@ exports.default = {
                             return _context4.abrupt('return', res.status(404).end());
 
                         case 7:
-                            _context4.next = 9;
-                            return retriveOrder.cartons.length;
-
-                        case 9:
-                            lenOfCartons = _context4.sent;
+                            lenOfCartons = retriveOrder.cartons.length;
                             result = {};
 
                             result.cartons = [];
@@ -389,11 +406,7 @@ exports.default = {
                                 result.cartons.push({ "item": item, "quantity": quantityItem });
                             }
                             //prepare galons 
-                            _context4.next = 17;
-                            return retriveOrder.galons.length;
-
-                        case 17:
-                            lenOfGalons = _context4.sent;
+                            lenOfGalons = retriveOrder.galons.length;
 
                             result.galons = [];
                             resultGalons = retriveOrder.galons;
@@ -421,18 +434,18 @@ exports.default = {
                             result.id = retriveOrder.id;
                             return _context4.abrupt('return', res.status(200).json(result));
 
-                        case 34:
-                            _context4.prev = 34;
+                        case 30:
+                            _context4.prev = 30;
                             _context4.t0 = _context4['catch'](1);
 
                             next(_context4.t0);
 
-                        case 37:
+                        case 33:
                         case 'end':
                             return _context4.stop();
                     }
                 }
-            }, _callee4, _this4, [[1, 34]]);
+            }, _callee4, _this4, [[1, 30]]);
         }))();
     },
 
@@ -441,7 +454,8 @@ exports.default = {
         var _this5 = this;
 
         return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
-            var orderId, orderDetails, provider, newOrder;
+            var orderId, orderDetails, provider, newOrder, newNoti, title, _body2;
+
             return regeneratorRuntime.wrap(function _callee5$(_context5) {
                 while (1) {
                     switch (_context5.prev = _context5.next) {
@@ -477,24 +491,38 @@ exports.default = {
 
                         case 12:
                             newOrder = _context5.sent;
+                            _context5.next = 15;
+                            return _notification2.default.create({
+                                targetUser: newOrder.customer,
+                                order: newOrder,
+                                text: 'your Order is accepted'
+                            });
+
+                        case 15:
+                            newNoti = _context5.sent;
+
+                            //send notification to client
+                            title = "your Order is accepted";
+                            _body2 = 'Accepted';
+
+                            (0, _pushNotifications.send)(newOrder.customer, title, _body2);
 
                             console.log(newOrder.status);
-                            //send notification to client
-                            (0, _pushNotifications.send)(newOrder.customer, "your Order is accepted", newOrder);
+
                             return _context5.abrupt('return', res.status(204).end());
 
-                        case 18:
-                            _context5.prev = 18;
+                        case 23:
+                            _context5.prev = 23;
                             _context5.t0 = _context5['catch'](1);
 
                             next(_context5.t0);
 
-                        case 21:
+                        case 26:
                         case 'end':
                             return _context5.stop();
                     }
                 }
-            }, _callee5, _this5, [[1, 18]]);
+            }, _callee5, _this5, [[1, 23]]);
         }))();
     },
 
@@ -503,7 +531,8 @@ exports.default = {
         var _this6 = this;
 
         return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
-            var orderId, orderDetails, provider, newOrder;
+            var orderId, orderDetails, provider, newOrder, title, _body3, newNoti;
+
             return regeneratorRuntime.wrap(function _callee6$(_context6) {
                 while (1) {
                     switch (_context6.prev = _context6.next) {
@@ -541,22 +570,37 @@ exports.default = {
                             newOrder = _context6.sent;
 
                             console.log(newOrder.status);
+
                             //send notification to client
-                            (0, _pushNotifications.send)(newOrder.customer, "نعتذر لعدم قبول طلبك", newOrder);
+                            title = "نعتذر لعدم قبول طلبك";
+                            _body3 = 'So Soory about That';
+
+                            (0, _pushNotifications.send)(newOrder.customer, title, _body3);
+
+                            //inApp notification 
+                            _context6.next = 19;
+                            return _notification2.default.create({
+                                targetUser: newOrder.customer,
+                                order: newOrder,
+                                text: 'نعتذر لعدم قبول طلبك'
+                            });
+
+                        case 19:
+                            newNoti = _context6.sent;
                             return _context6.abrupt('return', res.status(204).end());
 
-                        case 18:
-                            _context6.prev = 18;
+                        case 23:
+                            _context6.prev = 23;
                             _context6.t0 = _context6['catch'](1);
 
                             next(_context6.t0);
 
-                        case 21:
+                        case 26:
                         case 'end':
                             return _context6.stop();
                     }
                 }
-            }, _callee6, _this6, [[1, 18]]);
+            }, _callee6, _this6, [[1, 23]]);
         }))();
     },
 
@@ -565,7 +609,8 @@ exports.default = {
         var _this7 = this;
 
         return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
-            var orderId, orderDetails, provider, newOrder;
+            var orderId, orderDetails, provider, newOrder, title, _body4, newNoti;
+
             return regeneratorRuntime.wrap(function _callee7$(_context7) {
                 while (1) {
                     switch (_context7.prev = _context7.next) {
@@ -602,23 +647,38 @@ exports.default = {
                         case 12:
                             newOrder = _context7.sent;
 
-                            console.log(newOrder.status);
                             //send notification to provider by completed order 
-                            (0, _pushNotifications.send)(newOrder.customer, "Your Order On The Way ", newOrder);
-                            return _context7.abrupt('return', res.status(204).end());
+                            title = "Your Order On The Way";
+                            _body4 = "wait it plz";
+
+                            (0, _pushNotifications.send)(newOrder.customer, title, _body4);
+                            //inApp notification 
+                            _context7.next = 18;
+                            return _notification2.default.create({
+                                targetUser: newOrder.customer,
+                                order: newOrder.id,
+                                text: 'Your Order On The Way'
+                            });
 
                         case 18:
-                            _context7.prev = 18;
+                            newNoti = _context7.sent;
+
+                            console.log(newOrder.status);
+
+                            return _context7.abrupt('return', res.status(204).end());
+
+                        case 23:
+                            _context7.prev = 23;
                             _context7.t0 = _context7['catch'](1);
 
                             next(_context7.t0);
 
-                        case 21:
+                        case 26:
                         case 'end':
                             return _context7.stop();
                     }
                 }
-            }, _callee7, _this7, [[1, 18]]);
+            }, _callee7, _this7, [[1, 23]]);
         }))();
     },
 
@@ -627,7 +687,8 @@ exports.default = {
         var _this8 = this;
 
         return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
-            var orderId, orderDetails, customer, newOrder;
+            var orderId, orderDetails, customer, newOrder, newNoti, _body5, title;
+
             return regeneratorRuntime.wrap(function _callee8$(_context8) {
                 while (1) {
                     switch (_context8.prev = _context8.next) {
@@ -663,24 +724,39 @@ exports.default = {
 
                         case 12:
                             newOrder = _context8.sent;
+                            _context8.next = 15;
+                            return _notification2.default.create({
+                                targetUser: newOrder.provider,
+                                order: newOrder.id,
+                                text: 'لقد تم اتمام الطلب بنجاح'
+                            });
+
+                        case 15:
+                            newNoti = _context8.sent;
+
+
+                            //send notification to provider by completed order 
+                            _body5 = 'congratulations';
+                            title = "لقد تم اتمام الطلب بنجاح ";
+
+                            (0, _pushNotifications.send)(orderDetails.provider, title, _body5);
 
                             console.log(newOrder.status);
-                            //send notification to provider by completed order 
-                            (0, _pushNotifications.send)(newOrder.provider, "لقد تم اتمام الطلب بنجاح ", newOrder);
+
                             return _context8.abrupt('return', res.status(204).end());
 
-                        case 18:
-                            _context8.prev = 18;
+                        case 23:
+                            _context8.prev = 23;
                             _context8.t0 = _context8['catch'](1);
 
                             next(_context8.t0);
 
-                        case 21:
+                        case 26:
                         case 'end':
                             return _context8.stop();
                     }
                 }
-            }, _callee8, _this8, [[1, 18]]);
+            }, _callee8, _this8, [[1, 23]]);
         }))();
     }
 };
