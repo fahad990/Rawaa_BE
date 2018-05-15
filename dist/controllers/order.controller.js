@@ -188,21 +188,22 @@ exports.default = {
                             result.status = retriveOrder.status;
                             result.creationDate = retriveOrder.creationDate;
                             result.id = retriveOrder.id;
+                            result.deliveryPrice = retriveOrder.deliveryPrice;
 
                             return _context.abrupt('return', res.status(201).json(result));
 
-                        case 53:
-                            _context.prev = 53;
+                        case 54:
+                            _context.prev = 54;
                             _context.t0 = _context['catch'](0);
 
                             next(_context.t0);
 
-                        case 56:
+                        case 57:
                         case 'end':
                             return _context.stop();
                     }
                 }
-            }, _callee, _this, [[0, 53]]);
+            }, _callee, _this, [[0, 54]]);
         }))();
     },
 
@@ -270,6 +271,7 @@ exports.default = {
                                 OneOrderItem.creationDate = elme.creationDate;
                                 OneOrderItem.id = elme.id;
                                 OneOrderItem.price = elme.price;
+                                OneOrderItem.deliveryPrice = elme.deliveryPrice;
                                 return OneOrderItem;
                             });
 
@@ -432,20 +434,21 @@ exports.default = {
                             result.status = retriveOrder.status;
                             result.creationDate = retriveOrder.creationDate;
                             result.id = retriveOrder.id;
+                            result.deliveryPrice = retriveOrder.deliveryPrice;
                             return _context4.abrupt('return', res.status(200).json(result));
 
-                        case 30:
-                            _context4.prev = 30;
+                        case 31:
+                            _context4.prev = 31;
                             _context4.t0 = _context4['catch'](1);
 
                             next(_context4.t0);
 
-                        case 33:
+                        case 34:
                         case 'end':
                             return _context4.stop();
                     }
                 }
-            }, _callee4, _this4, [[1, 30]]);
+            }, _callee4, _this4, [[1, 31]]);
         }))();
     },
 

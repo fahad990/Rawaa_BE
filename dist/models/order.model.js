@@ -36,6 +36,10 @@ var OrderSchema = new _mongoose.Schema({
         type: Number,
         required: true
     },
+    deliveryPrice: {
+        type: Number,
+        required: true
+    },
     //location of deliver
     location: {
         type: [Number], // Don't forget [0=>longitude,1=>latitude]

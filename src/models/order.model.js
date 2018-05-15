@@ -23,6 +23,10 @@ const OrderSchema = new Schema({
         type: Number,
         required: true
     },
+    deliveryPrice: {
+        type: Number,
+        required: true
+    },
     //location of deliver
     location: {
         type: [Number], // Don't forget [0=>longitude,1=>latitude]
@@ -40,7 +44,7 @@ const OrderSchema = new Schema({
     status: {
         type: String,
         enum: ["pendding", "accepted", "rejected", "onTheWay", "delivered"],
-        default : "pendding",
+        default: "pendding",
     },
     creationDate: {
         type: Date,

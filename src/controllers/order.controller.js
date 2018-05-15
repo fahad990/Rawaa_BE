@@ -119,7 +119,8 @@ export default {
             result.provider = retriveOrder.provider;
             result.status = retriveOrder.status;
             result.creationDate = retriveOrder.creationDate;
-            result.id = retriveOrder.id
+            result.id = retriveOrder.id;
+            result.deliveryPrice = retriveOrder.deliveryPrice;
 
 
             return res.status(201).json(result)
@@ -185,6 +186,7 @@ export default {
                 OneOrderItem.creationDate = elme.creationDate;
                 OneOrderItem.id = elme.id;
                 OneOrderItem.price = elme.price;
+                OneOrderItem.deliveryPrice = elme.deliveryPrice
                 return OneOrderItem;
             })
             res.send(new ApiResponse(
@@ -289,6 +291,7 @@ export default {
             result.status = retriveOrder.status;
             result.creationDate = retriveOrder.creationDate;
             result.id = retriveOrder.id
+            result.deliveryPrice = retriveOrder.deliveryPrice;
             return res.status(200).json(result)
         } catch (err) {
             next(err)
@@ -408,7 +411,7 @@ export default {
             let body = 'congratulations';
             let title = "لقد تم اتمام الطلب بنجاح "
             send(orderDetails.provider, title, body)
-            
+
             console.log(newOrder.status)
 
             return res.status(204).end();
