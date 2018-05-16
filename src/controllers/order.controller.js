@@ -64,6 +64,7 @@ export default {
             objectToCreated.provider = req.body.provider;
             objectToCreated.customer = req.user.id;
             objectToCreated.price = req.body.price;
+            objectToCreated.deliveryPrice = req.body.deliveryPrice;
             let newOrder = await Order.create(objectToCreated);
 
             //in app notification 

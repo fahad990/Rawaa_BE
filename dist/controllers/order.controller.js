@@ -111,19 +111,20 @@ exports.default = {
                             objectToCreated.provider = req.body.provider;
                             objectToCreated.customer = req.user.id;
                             objectToCreated.price = req.body.price;
-                            _context.next = 16;
+                            objectToCreated.deliveryPrice = req.body.deliveryPrice;
+                            _context.next = 17;
                             return _order2.default.create(objectToCreated);
 
-                        case 16:
+                        case 17:
                             newOrder = _context.sent;
-                            _context.next = 19;
+                            _context.next = 20;
                             return _notification2.default.create({
                                 targetUser: newOrder.provider,
                                 order: newOrder,
                                 text: 'لديك طلب جديد'
                             });
 
-                        case 19:
+                        case 20:
                             newNoti = _context.sent;
 
 
@@ -134,15 +135,15 @@ exports.default = {
                             (0, _pushNotifications.send)(newOrder.provider, title, _body);
 
                             //prepare response    
-                            _context.next = 25;
+                            _context.next = 26;
                             return _order2.default.findById(newOrder.id).populate('cartons').populate('galons').populate('customer').populate('provider');
 
-                        case 25:
+                        case 26:
                             retriveOrder = _context.sent;
-                            _context.next = 28;
+                            _context.next = 29;
                             return retriveOrder.cartons.length;
 
-                        case 28:
+                        case 29:
                             lenOfCartons = _context.sent;
                             result = {};
 
@@ -158,10 +159,10 @@ exports.default = {
                                 result.cartons.push({ "item": item, "quantity": quantityItem });
                             }
                             //prepare galons 
-                            _context.next = 36;
+                            _context.next = 37;
                             return retriveOrder.galons.length;
 
-                        case 36:
+                        case 37:
                             lenOfGalons = _context.sent;
 
                             result.galons = [];
@@ -192,18 +193,18 @@ exports.default = {
 
                             return _context.abrupt('return', res.status(201).json(result));
 
-                        case 54:
-                            _context.prev = 54;
+                        case 55:
+                            _context.prev = 55;
                             _context.t0 = _context['catch'](0);
 
                             next(_context.t0);
 
-                        case 57:
+                        case 58:
                         case 'end':
                             return _context.stop();
                     }
                 }
-            }, _callee, _this, [[0, 54]]);
+            }, _callee, _this, [[0, 55]]);
         }))();
     },
 
