@@ -35,7 +35,10 @@ var requireAuth = _passport2.default.authenticate('jwt', { session: false });
 
 router.route('/users').get(requireAuth, _admin2.default.allUsers);
 router.route('/counts-numbers').get(_admin2.default.adminStatisttics);
+
 router.route('/price-delivir-km').post(requireAuth, _admin2.default.createPriceOfKilloMeter);
+
+router.route('/price-delivir-km').get(requireAuth, _admin2.default.retrivePriceOfOneKm);
 
 router.route('/orders/recent').get(_admin2.default.getRecentOrders);
 

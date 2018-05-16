@@ -13,8 +13,12 @@ router.route('/users')
     AdminController.allUsers)
 router.route('/counts-numbers')
     .get(AdminController.adminStatisttics)
+
 router.route('/price-delivir-km')
     .post(requireAuth, AdminController.createPriceOfKilloMeter)
+
+router.route('/price-delivir-km')
+    .get(requireAuth, AdminController.retrivePriceOfOneKm)
 
 router.route('/orders/recent')
     .get(AdminController.getRecentOrders)

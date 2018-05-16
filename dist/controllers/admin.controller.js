@@ -198,65 +198,43 @@ exports.default = {
         }))();
     },
 
-    //deactive user account
-    deactiveUser: function deactiveUser(req, res, next) {
+
+    //retrive price of KiloMeter 
+    retrivePriceOfOneKm: function retrivePriceOfOneKm(req, res, next) {
         var _this4 = this;
 
         return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-            var userId, userDetails, newUser;
+            var pric;
             return regeneratorRuntime.wrap(function _callee4$(_context4) {
                 while (1) {
                     switch (_context4.prev = _context4.next) {
                         case 0:
                             _context4.prev = 0;
-
-                            if (req.user.type == "ADMIN") {
-                                _context4.next = 3;
-                                break;
-                            }
-
-                            return _context4.abrupt('return', next(new _ApiError2.default(403, "not admin user")));
+                            _context4.next = 3;
+                            return _priceOfKm2.default.findOne();
 
                         case 3:
-                            userId = req.params.userId;
-                            _context4.next = 6;
-                            return _user2.default.findById(userId);
+                            pric = _context4.sent;
+                            return _context4.abrupt('return', res.status(200).json(pric));
 
-                        case 6:
-                            userDetails = _context4.sent;
-
-                            if (userDetails) {
-                                _context4.next = 9;
-                                break;
-                            }
-
-                            return _context4.abrupt('return', next(new _ApiError2.default(404)));
-
-                        case 9:
-                            _context4.next = 11;
-                            return _user2.default.findByIdAndUpdate(userId, { active: false }, { new: true });
-
-                        case 11:
-                            newUser = _context4.sent;
-                            return _context4.abrupt('return', res.status(200).json(newUser));
-
-                        case 15:
-                            _context4.prev = 15;
+                        case 7:
+                            _context4.prev = 7;
                             _context4.t0 = _context4['catch'](0);
 
                             next(_context4.t0);
 
-                        case 18:
+                        case 10:
                         case 'end':
                             return _context4.stop();
                     }
                 }
-            }, _callee4, _this4, [[0, 15]]);
+            }, _callee4, _this4, [[0, 7]]);
         }))();
     },
 
-    //active user account 
-    activeUser: function activeUser(req, res, next) {
+
+    //deactive user account
+    deactiveUser: function deactiveUser(req, res, next) {
         var _this5 = this;
 
         return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
@@ -291,7 +269,7 @@ exports.default = {
 
                         case 9:
                             _context5.next = 11;
-                            return _user2.default.findByIdAndUpdate(userId, { active: true }, { new: true });
+                            return _user2.default.findByIdAndUpdate(userId, { active: false }, { new: true });
 
                         case 11:
                             newUser = _context5.sent;
@@ -311,56 +289,113 @@ exports.default = {
             }, _callee5, _this5, [[0, 15]]);
         }))();
     },
-    adminStatisttics: function adminStatisttics(req, res, next) {
+
+    //active user account 
+    activeUser: function activeUser(req, res, next) {
         var _this6 = this;
 
         return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
-            var numberOfOrder, penddingOrder, acceptedOrder, rejectedOrder, onTheWayOrder, deliveredOrder, numberOfClient, numberOfProvider;
+            var userId, userDetails, newUser;
             return regeneratorRuntime.wrap(function _callee6$(_context6) {
                 while (1) {
                     switch (_context6.prev = _context6.next) {
                         case 0:
-                            _context6.next = 2;
+                            _context6.prev = 0;
+
+                            if (req.user.type == "ADMIN") {
+                                _context6.next = 3;
+                                break;
+                            }
+
+                            return _context6.abrupt('return', next(new _ApiError2.default(403, "not admin user")));
+
+                        case 3:
+                            userId = req.params.userId;
+                            _context6.next = 6;
+                            return _user2.default.findById(userId);
+
+                        case 6:
+                            userDetails = _context6.sent;
+
+                            if (userDetails) {
+                                _context6.next = 9;
+                                break;
+                            }
+
+                            return _context6.abrupt('return', next(new _ApiError2.default(404)));
+
+                        case 9:
+                            _context6.next = 11;
+                            return _user2.default.findByIdAndUpdate(userId, { active: true }, { new: true });
+
+                        case 11:
+                            newUser = _context6.sent;
+                            return _context6.abrupt('return', res.status(200).json(newUser));
+
+                        case 15:
+                            _context6.prev = 15;
+                            _context6.t0 = _context6['catch'](0);
+
+                            next(_context6.t0);
+
+                        case 18:
+                        case 'end':
+                            return _context6.stop();
+                    }
+                }
+            }, _callee6, _this6, [[0, 15]]);
+        }))();
+    },
+    adminStatisttics: function adminStatisttics(req, res, next) {
+        var _this7 = this;
+
+        return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+            var numberOfOrder, penddingOrder, acceptedOrder, rejectedOrder, onTheWayOrder, deliveredOrder, numberOfClient, numberOfProvider;
+            return regeneratorRuntime.wrap(function _callee7$(_context7) {
+                while (1) {
+                    switch (_context7.prev = _context7.next) {
+                        case 0:
+                            _context7.next = 2;
                             return _order2.default.count();
 
                         case 2:
-                            numberOfOrder = _context6.sent;
-                            _context6.next = 5;
+                            numberOfOrder = _context7.sent;
+                            _context7.next = 5;
                             return _order2.default.count({ status: "pendding" });
 
                         case 5:
-                            penddingOrder = _context6.sent;
-                            _context6.next = 8;
+                            penddingOrder = _context7.sent;
+                            _context7.next = 8;
                             return _order2.default.count({ status: "accepted" });
 
                         case 8:
-                            acceptedOrder = _context6.sent;
-                            _context6.next = 11;
+                            acceptedOrder = _context7.sent;
+                            _context7.next = 11;
                             return _order2.default.count({ status: "rejected" });
 
                         case 11:
-                            rejectedOrder = _context6.sent;
-                            _context6.next = 14;
+                            rejectedOrder = _context7.sent;
+                            _context7.next = 14;
                             return _order2.default.count({ status: "onTheWay" });
 
                         case 14:
-                            onTheWayOrder = _context6.sent;
-                            _context6.next = 17;
+                            onTheWayOrder = _context7.sent;
+                            _context7.next = 17;
                             return _order2.default.count({ status: "delivered" });
 
                         case 17:
-                            deliveredOrder = _context6.sent;
-                            _context6.next = 20;
+                            deliveredOrder = _context7.sent;
+                            _context7.next = 20;
                             return _user2.default.count({ type: "NORMAL" });
 
                         case 20:
-                            numberOfClient = _context6.sent;
-                            _context6.next = 23;
+                            numberOfClient = _context7.sent;
+                            _context7.next = 23;
                             return _user2.default.count({ type: "PROVIDER" });
 
                         case 23:
-                            numberOfProvider = _context6.sent;
-                            return _context6.abrupt('return', res.status(200).json({
+                            numberOfProvider = _context7.sent;
+                            return _context7.abrupt('return', res.status(200).json({
                                 numberOfOrder: numberOfOrder,
                                 penddingOrder: penddingOrder,
                                 acceptedOrder: acceptedOrder,
@@ -373,27 +408,27 @@ exports.default = {
 
                         case 25:
                         case 'end':
-                            return _context6.stop();
+                            return _context7.stop();
                     }
                 }
-            }, _callee6, _this6);
+            }, _callee7, _this7);
         }))();
     },
     getRecentOrders: function getRecentOrders(req, res, next) {
-        var _this7 = this;
+        var _this8 = this;
 
-        return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+        return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
             var allOrders, result;
-            return regeneratorRuntime.wrap(function _callee7$(_context7) {
+            return regeneratorRuntime.wrap(function _callee8$(_context8) {
                 while (1) {
-                    switch (_context7.prev = _context7.next) {
+                    switch (_context8.prev = _context8.next) {
                         case 0:
-                            _context7.prev = 0;
-                            _context7.next = 3;
+                            _context8.prev = 0;
+                            _context8.next = 3;
                             return _order2.default.find().sort({ creationDate: -1 }).limit(10).populate('cartons').populate('galons').populate('customer').populate('provider');
 
                         case 3:
-                            allOrders = _context7.sent;
+                            allOrders = _context8.sent;
 
                             //prepare response 
                             result = allOrders.map(function (elme) {
@@ -438,20 +473,20 @@ exports.default = {
                                 OneOrderItem.price = elme.price;
                                 return OneOrderItem;
                             });
-                            return _context7.abrupt('return', res.status(200).json(result));
+                            return _context8.abrupt('return', res.status(200).json(result));
 
                         case 8:
-                            _context7.prev = 8;
-                            _context7.t0 = _context7['catch'](0);
+                            _context8.prev = 8;
+                            _context8.t0 = _context8['catch'](0);
 
-                            next(_context7.t0);
+                            next(_context8.t0);
 
                         case 11:
                         case 'end':
-                            return _context7.stop();
+                            return _context8.stop();
                     }
                 }
-            }, _callee7, _this7, [[0, 8]]);
+            }, _callee8, _this8, [[0, 8]]);
         }))();
     }
 };

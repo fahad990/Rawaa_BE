@@ -58,6 +58,17 @@ export default {
             next(err)
         }
     },
+
+    //retrive price of KiloMeter 
+    async retrivePriceOfOneKm(req, res, next) {
+        try {
+            let pric = await PriceKm.findOne();
+            return res.status(200).json(pric);
+        } catch (err) {
+            next(err)
+        }
+    },
+
     //deactive user account
     async deactiveUser(req, res, next) {
         try {
@@ -165,6 +176,6 @@ export default {
             next(err)
         }
     },
-    
+
 
 }
