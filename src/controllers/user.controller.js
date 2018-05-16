@@ -134,6 +134,7 @@ export default {
                 OneOrderItem.creationDate = elme.creationDate;
                 OneOrderItem.id = elme.id;
                 OneOrderItem.price = elme.price;
+                OneOrderItem.deliveryPrice = elme.deliveryPrice
                 return OneOrderItem;
             })
             res.send(new ApiResponse(
@@ -205,6 +206,7 @@ export default {
                 OneOrderItem.creationDate = elme.creationDate;
                 OneOrderItem.id = elme.id;
                 OneOrderItem.price = elme.price;
+                OneOrderItem.deliveryPrice = elme.deliveryPrice;
                 return OneOrderItem;
             })
             res.send(new ApiResponse(
@@ -219,8 +221,8 @@ export default {
             next(err)
         }
     },
-     //fetch some statistics about order 
-     async countOrdersOfCustomer(req, res, next) {
+    //fetch some statistics about order 
+    async countOrdersOfCustomer(req, res, next) {
         try {
             let customerId = req.params.customerId;
             let customerDetails = await User.findById(customerId);

@@ -90,6 +90,7 @@ exports.default = {
                                 OneOrderItem.creationDate = elme.creationDate;
                                 OneOrderItem.id = elme.id;
                                 OneOrderItem.price = elme.price;
+                                OneOrderItem.deliveryPrice = elme.deliveryPrice;
                                 return OneOrderItem;
                             });
 
@@ -172,6 +173,7 @@ exports.default = {
                                 OneOrderItem.creationDate = elme.creationDate;
                                 OneOrderItem.id = elme.id;
                                 OneOrderItem.price = elme.price;
+                                OneOrderItem.deliveryPrice = elme.deliveryPrice;
                                 return OneOrderItem;
                             });
 

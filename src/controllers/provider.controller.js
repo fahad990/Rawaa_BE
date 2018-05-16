@@ -62,6 +62,7 @@ export default {
                 OneOrderItem.creationDate = elme.creationDate;
                 OneOrderItem.id = elme.id;
                 OneOrderItem.price = elme.price;
+                OneOrderItem.deliveryPrice = elme.deliveryPrice;
                 return OneOrderItem;
             })
             res.send(new ApiResponse(
@@ -133,6 +134,7 @@ export default {
                 OneOrderItem.creationDate = elme.creationDate;
                 OneOrderItem.id = elme.id;
                 OneOrderItem.price = elme.price;
+                OneOrderItem.deliveryPrice = elme.deliveryPrice
                 return OneOrderItem;
             })
             res.send(new ApiResponse(
