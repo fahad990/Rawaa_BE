@@ -30,9 +30,13 @@ var requireSignIn = _passport2.default.authenticate('local', { session: false })
 var requireAuth = _passport2.default.authenticate('jwt', { session: false });
 var router = _express2.default.Router();
 
+router.route('/:providerId/reports').get(requireAuth, _provider2.default.retriveSomeOfReports);
+
 router.route('/:providerId/orders/un-completed').get(requireAuth, _checkBlockUser.checkBlockUser, _provider2.default.unCompletedOrderOfOneProvider);
 
 router.route('/:providerId/orders/completed').get(requireAuth, _checkBlockUser.checkBlockUser, _provider2.default.completedOrderOfOneProvider);
+
+router.route('/:providerId/reports').get(_provider2.default.retriveSomeOfReports);
 
 exports.default = router;
 //# sourceMappingURL=providers.route.js.map

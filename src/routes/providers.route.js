@@ -8,11 +8,18 @@ const requireSignIn = passport.authenticate('local', { session: false });
 const requireAuth = passport.authenticate('jwt', { session: false });
 const router = express.Router();
 
+
+router.route('/:providerId/reports')
+    .get(requireAuth, ProviderController.retriveSomeOfReports)
+
 router.route('/:providerId/orders/un-completed')
     .get(requireAuth, checkBlockUser, ProviderController.unCompletedOrderOfOneProvider)
 
 
 router.route('/:providerId/orders/completed')
     .get(requireAuth, checkBlockUser, ProviderController.completedOrderOfOneProvider)
+
+router.route('/:providerId/reports')
+    .get(ProviderController.retriveSomeOfReports)
 
 export default router;

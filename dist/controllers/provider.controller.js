@@ -4,6 +4,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _mongoose = require('mongoose');
 
 var _mongoose2 = _interopRequireDefault(_mongoose);
@@ -39,7 +41,7 @@ exports.default = {
                     switch (_context.prev = _context.next) {
                         case 0:
                             _context.prev = 0;
-                            limit = parseInt(req.query.limit) || 20;
+                            limit = parseInt(req.query.limit) || 1100;
                             page = req.query.page || 1;
                             _context.next = 5;
                             return _order2.default.find({
@@ -122,7 +124,7 @@ exports.default = {
                     switch (_context2.prev = _context2.next) {
                         case 0:
                             _context2.prev = 0;
-                            limit = parseInt(req.query.limit) || 20;
+                            limit = parseInt(req.query.limit) || 1100;
                             page = req.query.page || 1;
                             _context2.next = 5;
                             return _order2.default.find({
@@ -264,6 +266,65 @@ exports.default = {
                     }
                 }
             }, _callee3, _this3, [[0, 29]]);
+        }))();
+    },
+
+
+    //fech some of reports about providers activities 
+    retriveSomeOfReports: function retriveSomeOfReports(req, res, next) {
+        var _this4 = this;
+
+        return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+            var providerId, query, _req$query, from, to, allOrders, totalProductPrice, totalDeliveryPrice, totalPrice, numberOfOrders;
+
+            return regeneratorRuntime.wrap(function _callee4$(_context4) {
+                while (1) {
+                    switch (_context4.prev = _context4.next) {
+                        case 0:
+                            _context4.prev = 0;
+                            providerId = req.params.providerId;
+                            query = {};
+                            _req$query = req.query, from = _req$query.from, to = _req$query.to;
+
+
+                            if (from) query.creationDate = { $gte: +from };
+                            if (to) query.creationDate = _extends({}, query.creationDate, { $lte: +to });
+                            query.provider = providerId;
+                            console.log(req.query);
+                            _context4.next = 10;
+                            return _order2.default.find(query);
+
+                        case 10:
+                            allOrders = _context4.sent;
+                            totalProductPrice = allOrders.reduce(function (accumulator, currentValue) {
+                                return accumulator + currentValue.price;
+                            }, 0);
+
+                            console.log(totalProductPrice);
+                            totalDeliveryPrice = allOrders.reduce(function (accumulator, currentValue) {
+                                return accumulator + currentValue.deliveryPrice;
+                            }, 0);
+                            totalPrice = totalDeliveryPrice + totalProductPrice;
+                            numberOfOrders = allOrders.length;
+                            return _context4.abrupt('return', res.status(200).json({
+                                totalProductPrice: totalProductPrice,
+                                totalDeliveryPrice: totalDeliveryPrice,
+                                totalPrice: totalPrice,
+                                numberOfOrders: numberOfOrders
+                            }));
+
+                        case 19:
+                            _context4.prev = 19;
+                            _context4.t0 = _context4['catch'](0);
+
+                            next(_context4.t0);
+
+                        case 22:
+                        case 'end':
+                            return _context4.stop();
+                    }
+                }
+            }, _callee4, _this4, [[0, 19]]);
         }))();
     }
 };

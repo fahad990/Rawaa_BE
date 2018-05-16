@@ -7,7 +7,7 @@ import User from '../models/user.model'
 export default {
     async unCompletedOrderOfOneProvider(req, res, next) {
         try {
-            const limit = parseInt(req.query.limit) || 20;
+            const limit = parseInt(req.query.limit) || 1100;
             let page = req.query.page || 1;
             let allOrders = await Order.find({
                 $and: [
@@ -79,7 +79,7 @@ export default {
     },
     async completedOrderOfOneProvider(req, res, next) {
         try {
-            const limit = parseInt(req.query.limit) || 20;
+            const limit = parseInt(req.query.limit) || 1100;
             let page = req.query.page || 1;
             let allOrders = await Order.find({
                 $and: [
@@ -176,6 +176,36 @@ export default {
                 countOfCompleted,
                 countOfPendding,
                 countOfRefuse
+            })
+        } catch (err) {
+            next(err)
+        }
+    },
+
+    //fech some of reports about providers activities 
+    async retriveSomeOfReports(req, res, next) {
+        try {
+            let providerId = req.params.providerId;
+            let query = {}
+            let { from, to } = req.query
+
+            if (from)
+                query.creationDate = { $gte: +from }
+            if (to)
+                query.creationDate = { ...query.creationDate, $lte: +to }
+            query.provider = providerId;
+            console.log(req.query)
+            let allOrders = await Order.find(query);
+            let totalProductPrice = allOrders.reduce((accumulator, currentValue) => accumulator + currentValue.price, 0);
+            console.log(totalProductPrice)
+            let totalDeliveryPrice = allOrders.reduce((accumulator, currentValue) => accumulator + currentValue.deliveryPrice, 0);
+            let totalPrice = totalDeliveryPrice + totalProductPrice;
+            let numberOfOrders = allOrders.length;
+            return res.status(200).json({
+                totalProductPrice,
+                totalDeliveryPrice,
+                totalPrice,
+                numberOfOrders
             })
         } catch (err) {
             next(err)
