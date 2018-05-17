@@ -32,6 +32,9 @@ router.route('/orders/:orderId').get(requireAuth, _checkBlockUser.checkBlockUser
 router.route('/orders/:orderId/accept').put(requireAuth, _checkBlockUser.checkBlockUser, _order2.default.acceptOrder);
 //refuse order 
 router.route('/orders/:orderId/refuse').put(requireAuth, _checkBlockUser.checkBlockUser, _order2.default.refuseOrder);
+
+router.route('/orders/:orderId/refuse-reasone').put(requireAuth, _checkBlockUser.checkBlockUser, _order2.default.sendReasoneOfRefuseOrder);
+
 //on the way order 
 router.route('/orders/:orderId/on-the-Way').put(requireAuth, _checkBlockUser.checkBlockUser, _order2.default.makeOrderOnDiliver);
 //make order done 

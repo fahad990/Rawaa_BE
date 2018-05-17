@@ -762,6 +762,78 @@ exports.default = {
                 }
             }, _callee8, _this8, [[1, 23]]);
         }))();
+    },
+
+
+    //reasone of refuse order 
+    sendReasoneOfRefuseOrder: function sendReasoneOfRefuseOrder(req, res, next) {
+        var _this9 = this;
+
+        return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
+            var orderId, orderDetails, newOrder, newNoti, _body6, title;
+
+            return regeneratorRuntime.wrap(function _callee9$(_context9) {
+                while (1) {
+                    switch (_context9.prev = _context9.next) {
+                        case 0:
+                            _context9.prev = 0;
+                            orderId = req.params.orderId;
+                            _context9.next = 4;
+                            return _order2.default.findById(orderId);
+
+                        case 4:
+                            orderDetails = _context9.sent;
+
+                            if (orderDetails) {
+                                _context9.next = 7;
+                                break;
+                            }
+
+                            return _context9.abrupt('return', res.status(404).end());
+
+                        case 7:
+
+                            orderDetails.note = req.body.note;
+                            _context9.next = 10;
+                            return orderDetails.save();
+
+                        case 10:
+                            _context9.next = 12;
+                            return _order2.default.findById(orderId);
+
+                        case 12:
+                            newOrder = _context9.sent;
+                            _context9.next = 15;
+                            return _notification2.default.create({
+                                targetUser: newOrder.customer,
+                                order: newOrder.id,
+                                text: newOrder.note
+                            });
+
+                        case 15:
+                            newNoti = _context9.sent;
+
+
+                            //send notification to provider by completed order 
+                            _body6 = newOrder.note;
+                            title = "اعتذار لرفض الطلب";
+
+                            (0, _pushNotifications.send)(orderDetails.customer, title, _body6);
+                            return _context9.abrupt('return', res.status(204).end());
+
+                        case 22:
+                            _context9.prev = 22;
+                            _context9.t0 = _context9['catch'](0);
+
+                            next(_context9.t0);
+
+                        case 25:
+                        case 'end':
+                            return _context9.stop();
+                    }
+                }
+            }, _callee9, _this9, [[0, 22]]);
+        }))();
     }
 };
 //# sourceMappingURL=order.controller.js.map

@@ -59,6 +59,9 @@ var OrderSchema = new _mongoose.Schema({
         enum: ["pendding", "accepted", "rejected", "onTheWay", "delivered"],
         default: "pendding"
     },
+    note: {
+        type: String
+    },
     creationDate: {
         type: Date,
         default: Date.now
