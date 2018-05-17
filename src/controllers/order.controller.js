@@ -421,4 +421,35 @@ export default {
         }
     },
 
+    //reasone of refuse order 
+    async sendReasoneOfRefuseOrder(req, res, next) {
+        try {
+            let orderId = req.params.orderId;
+            let orderDetails = await Order.findById(orderId);
+            if (!orderDetails)
+                return res.status(404).end();
+
+            orderDetails.note = req.body.note;
+            await orderDetails.save();
+
+            let newOrder = await Order.findById(orderId);
+
+            //inApp notification 
+            let newNoti = await NotificationOrder.create({
+                targetUser: newOrder.customer,
+                order: newOrder.id,
+                text: newOrder.note
+            })
+
+            //send notification to provider by completed order 
+            let body = newOrder.note;
+            let title = "اعتذار لرفض الطلب"
+            send(orderDetails.customer, title, body)
+            return res.status(204).end();
+        } catch (err) {
+            next(err)
+        }
+    },
+
+
 }

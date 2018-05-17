@@ -46,6 +46,9 @@ const OrderSchema = new Schema({
         enum: ["pendding", "accepted", "rejected", "onTheWay", "delivered"],
         default: "pendding",
     },
+    note: {
+        type: String,
+    },
     creationDate: {
         type: Date,
         default: Date.now

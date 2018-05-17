@@ -1,7 +1,7 @@
 import OrderController from '../controllers/order.controller';
 import express from 'express';
 import passport from 'passport';
-import {checkBlockUser} from '../helpers/check-block-user'
+import { checkBlockUser } from '../helpers/check-block-user'
 const requireAuth = passport.authenticate('jwt', { session: false });
 const router = express.Router();
 
@@ -14,32 +14,38 @@ router.route('/users/:userId/orders')
 
 router.route('/providers/:providerId/orders')
     .get(requireAuth,
-        checkBlockUser,
+    checkBlockUser,
     OrderController.allOrdersOfProvider)
 //retrive one order details
 router.route('/orders/:orderId')
     .get(requireAuth,
-        checkBlockUser,
+    checkBlockUser,
     OrderController.orderDetails)
 //accept order 
 router.route('/orders/:orderId/accept')
     .put(requireAuth,
-        checkBlockUser,
+    checkBlockUser,
     OrderController.acceptOrder)
 //refuse order 
 router.route('/orders/:orderId/refuse')
     .put(requireAuth,
-        checkBlockUser,
+    checkBlockUser,
     OrderController.refuseOrder)
+
+router.route('/orders/:orderId/refuse-reasone')
+    .put(requireAuth,
+    checkBlockUser,
+    OrderController.sendReasoneOfRefuseOrder)
+
 //on the way order 
 router.route('/orders/:orderId/on-the-Way')
     .put(requireAuth,
-        checkBlockUser,
+    checkBlockUser,
     OrderController.makeOrderOnDiliver)
 //make order done 
 router.route('/orders/:orderId/delivered')
     .put(requireAuth,
-        checkBlockUser,
+    checkBlockUser,
     OrderController.makeOrderDone)
 
 //get distance between 2 point locations
