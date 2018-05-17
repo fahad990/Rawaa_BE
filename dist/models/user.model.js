@@ -53,6 +53,9 @@ var UserSchema = new _mongoose.Schema({
         type: Boolean,
         default: true
     },
+    email: {
+        type: String
+    },
     pushTokens: [{
         type: String
     }]

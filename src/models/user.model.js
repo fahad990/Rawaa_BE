@@ -37,6 +37,9 @@ const UserSchema = new Schema({
         type: Boolean,
         default: true
     },
+    email : {
+        type : String
+    },
     pushTokens: [{
         type: String
     }]

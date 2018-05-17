@@ -72,51 +72,43 @@ exports.default = {
                         case 7:
                             userDetails = _context.sent;
 
-                            if (userDetails.active == true) {
-                                _context.next = 10;
-                                break;
-                            }
-
-                            return _context.abrupt('return', next(new _ApiError2.default(403, "don't access, your account is deactive")));
-
-                        case 10:
                             if (!req.file) {
-                                _context.next = 16;
+                                _context.next = 14;
                                 break;
                             }
 
-                            _context.next = 13;
+                            _context.next = 11;
                             return (0, _index.toImgUrl)(req.file);
 
-                        case 13:
+                        case 11:
                             req.body.img = _context.sent;
-                            _context.next = 17;
+                            _context.next = 15;
                             break;
 
-                        case 16:
+                        case 14:
                             next(new _ApiError2.default(422, 'img is required'));
 
-                        case 17:
+                        case 15:
                             req.body.user = req.user._id;
-                            _context.next = 20;
+                            _context.next = 18;
                             return _cartona2.default.create(req.body);
 
-                        case 20:
+                        case 18:
                             newDoc = _context.sent;
                             return _context.abrupt('return', res.status(201).json(newDoc));
 
-                        case 24:
-                            _context.prev = 24;
+                        case 22:
+                            _context.prev = 22;
                             _context.t0 = _context['catch'](3);
 
                             next(_context.t0);
 
-                        case 27:
+                        case 25:
                         case 'end':
                             return _context.stop();
                     }
                 }
-            }, _callee, _this, [[3, 24]]);
+            }, _callee, _this, [[3, 22]]);
         }))();
     },
 

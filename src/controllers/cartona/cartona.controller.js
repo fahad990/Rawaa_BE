@@ -25,9 +25,6 @@ export default {
                 next(new ApiError(403, 'not provider user'))
             }
             let userDetails = await User.findById(req.user.id);
-            if (!(userDetails.active == true))
-                return next(new ApiError(403, "don't access, your account is deactive"))
-
             if (req.file) {
                 req.body.img = await toImgUrl(req.file)
             } else {

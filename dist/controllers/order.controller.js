@@ -499,15 +499,15 @@ exports.default = {
                             return _notification2.default.create({
                                 targetUser: newOrder.customer,
                                 order: newOrder,
-                                text: 'your Order is accepted'
+                                text: 'تم قبول طلبك بنجاح يمكنك الآن الاتصال بموفر الخدمة'
                             });
 
                         case 15:
                             newNoti = _context5.sent;
 
                             //send notification to client
-                            title = "your Order is accepted";
-                            _body2 = 'Accepted';
+                            title = "إشعار بشأن طلبك ";
+                            _body2 = ' تم قبول طلبك بنجاح يمكنك الآن الاتصال بموفر الخدمة';
 
                             (0, _pushNotifications.send)(newOrder.customer, title, _body2);
 
@@ -576,8 +576,8 @@ exports.default = {
                             console.log(newOrder.status);
 
                             //send notification to client
-                            title = "نعتذر لعدم قبول طلبك";
-                            _body3 = 'So Soory about That';
+                            title = "إشعار بشأن طلبك";
+                            _body3 = ' نعتذر لعدم قبول طلبك';
 
                             (0, _pushNotifications.send)(newOrder.customer, title, _body3);
 
@@ -652,8 +652,8 @@ exports.default = {
                             newOrder = _context7.sent;
 
                             //send notification to provider by completed order 
-                            title = "Your Order On The Way";
-                            _body4 = "wait it plz";
+                            title = "إشعار بشأن طلبك";
+                            _body4 = "طلبك في الطريق إليك  يرجى الانتظار";
 
                             (0, _pushNotifications.send)(newOrder.customer, title, _body4);
                             //inApp notification 
@@ -661,7 +661,7 @@ exports.default = {
                             return _notification2.default.create({
                                 targetUser: newOrder.customer,
                                 order: newOrder.id,
-                                text: 'Your Order On The Way'
+                                text: 'طلبك في الطريق إليك  يرجى الانتظار'
                             });
 
                         case 18:
@@ -740,8 +740,8 @@ exports.default = {
 
 
                             //send notification to provider by completed order 
-                            _body5 = 'congratulations';
-                            title = "لقد تم اتمام الطلب بنجاح ";
+                            _body5 = 'لقد تم اتمام الطلب بنجاح';
+                            title = "إشعار بشأن طلبك";
 
                             (0, _pushNotifications.send)(orderDetails.provider, title, _body5);
 

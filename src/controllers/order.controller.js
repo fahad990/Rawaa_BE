@@ -316,11 +316,11 @@ export default {
             let newNoti = await NotificationOrder.create({
                 targetUser: newOrder.customer,
                 order: newOrder,
-                text: 'your Order is accepted'
+                text: 'تم قبول طلبك بنجاح يمكنك الآن الاتصال بموفر الخدمة'
             })
             //send notification to client
-            let title = "your Order is accepted";
-            let body = 'Accepted'
+            let title = "إشعار بشأن طلبك ";
+            let body = ' تم قبول طلبك بنجاح يمكنك الآن الاتصال بموفر الخدمة'
             send(newOrder.customer, title, body)
 
             console.log(newOrder.status)
@@ -345,8 +345,8 @@ export default {
             console.log(newOrder.status)
 
             //send notification to client
-            let title = "نعتذر لعدم قبول طلبك";
-            let body = 'So Soory about That';
+            let title = "إشعار بشأن طلبك";
+            let body = ' نعتذر لعدم قبول طلبك';
             send(newOrder.customer, title, body)
 
             //inApp notification 
@@ -373,14 +373,14 @@ export default {
                 return next(new ApiError(403, "not access to this operation"))
             let newOrder = await Order.findByIdAndUpdate(orderId, { status: "onTheWay" }, { new: true });
             //send notification to provider by completed order 
-            let title = "Your Order On The Way";
-            let body = "wait it plz"
+            let title = "إشعار بشأن طلبك";
+            let body = "طلبك في الطريق إليك  يرجى الانتظار"
             send(newOrder.customer, title, body)
             //inApp notification 
             let newNoti = await NotificationOrder.create({
                 targetUser: newOrder.customer,
                 order: newOrder.id,
-                text: 'Your Order On The Way'
+                text: 'طلبك في الطريق إليك  يرجى الانتظار'
             })
             console.log(newOrder.status)
 
@@ -409,8 +409,8 @@ export default {
             })
 
             //send notification to provider by completed order 
-            let body = 'congratulations';
-            let title = "لقد تم اتمام الطلب بنجاح "
+            let body = 'لقد تم اتمام الطلب بنجاح';
+            let title = "إشعار بشأن طلبك"
             send(orderDetails.provider, title, body)
 
             console.log(newOrder.status)
