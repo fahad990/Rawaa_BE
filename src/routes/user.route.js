@@ -28,6 +28,13 @@ router.route("/users/:userId/galons")
     requireAuth,
     galonController.galonsOfOneProvider)
 
+router.route('/users/:userId')
+    .put(
+    requireAuth,
+    multerSaveTo('users').single('img'),
+    UserController.updateProfile)
+    .get(requireAuth, UserController.reriveUserDetails)
+
 router.route("/users/:userId/cartons")
     .get(
     requireAuth,
@@ -39,8 +46,10 @@ router.route("/users/:userId/notification")
 
 router.route('/users/:userId/orders/completed')
     .get(requireAuth, checkBlockUser, UserController.completedOrderOfOneUser)
+
 router.route('/users/:userId/orders/un-completed')
     .get(requireAuth, checkBlockUser, UserController.unCompletedOrderOfOneUser)
+
 export default router;
 
 

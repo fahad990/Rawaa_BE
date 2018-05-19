@@ -253,5 +253,32 @@ export default {
             next(err)
         }
     },
+    //update profile
+    async updateProfile(req, res, next) {
+        try {
+            let userId = req.params.userId;
+            let userDetails = await User.findById(userId);
+            if (!userDetails)
+                return res.status(404).end();
+            if (req.file)
+                req.body.img = await toImgUrl(req.file)
+            let newUser = await User.findByIdAndUpdate(userId, req.body, { new: true });
+            return res.status(200).json(newUser);
+        } catch (err) {
+            next(err)
+        }
+    },
+    //fetch user details 
+    async reriveUserDetails(req, res, next) {
+        try {
+            let userId = req.params.userId;
+            let userDetails = await User.findById(userId);
+            if (!userDetails)
+                return res.status(404).end();
+            return res.status(200).json(userDetails);
+        } catch (err) {
+            next(err)
+        }
+    },
 
 }

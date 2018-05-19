@@ -434,6 +434,109 @@ exports.default = {
                 }
             }, _callee6, _this6, [[0, 29]]);
         }))();
+    },
+
+    //update profile
+    updateProfile: function updateProfile(req, res, next) {
+        var _this7 = this;
+
+        return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+            var userId, userDetails, newUser;
+            return regeneratorRuntime.wrap(function _callee7$(_context7) {
+                while (1) {
+                    switch (_context7.prev = _context7.next) {
+                        case 0:
+                            _context7.prev = 0;
+                            userId = req.params.userId;
+                            _context7.next = 4;
+                            return _user2.default.findById(userId);
+
+                        case 4:
+                            userDetails = _context7.sent;
+
+                            if (userDetails) {
+                                _context7.next = 7;
+                                break;
+                            }
+
+                            return _context7.abrupt("return", res.status(404).end());
+
+                        case 7:
+                            if (!req.file) {
+                                _context7.next = 11;
+                                break;
+                            }
+
+                            _context7.next = 10;
+                            return (0, _index.toImgUrl)(req.file);
+
+                        case 10:
+                            req.body.img = _context7.sent;
+
+                        case 11:
+                            _context7.next = 13;
+                            return _user2.default.findByIdAndUpdate(userId, req.body, { new: true });
+
+                        case 13:
+                            newUser = _context7.sent;
+                            return _context7.abrupt("return", res.status(200).json(newUser));
+
+                        case 17:
+                            _context7.prev = 17;
+                            _context7.t0 = _context7["catch"](0);
+
+                            next(_context7.t0);
+
+                        case 20:
+                        case "end":
+                            return _context7.stop();
+                    }
+                }
+            }, _callee7, _this7, [[0, 17]]);
+        }))();
+    },
+
+    //fetch user details 
+    reriveUserDetails: function reriveUserDetails(req, res, next) {
+        var _this8 = this;
+
+        return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
+            var userId, userDetails;
+            return regeneratorRuntime.wrap(function _callee8$(_context8) {
+                while (1) {
+                    switch (_context8.prev = _context8.next) {
+                        case 0:
+                            _context8.prev = 0;
+                            userId = req.params.userId;
+                            _context8.next = 4;
+                            return _user2.default.findById(userId);
+
+                        case 4:
+                            userDetails = _context8.sent;
+
+                            if (userDetails) {
+                                _context8.next = 7;
+                                break;
+                            }
+
+                            return _context8.abrupt("return", res.status(404).end());
+
+                        case 7:
+                            return _context8.abrupt("return", res.status(200).json(userDetails));
+
+                        case 10:
+                            _context8.prev = 10;
+                            _context8.t0 = _context8["catch"](0);
+
+                            next(_context8.t0);
+
+                        case 13:
+                        case "end":
+                            return _context8.stop();
+                    }
+                }
+            }, _callee8, _this8, [[0, 10]]);
+        }))();
     }
 };
 //# sourceMappingURL=user.controller.js.map
