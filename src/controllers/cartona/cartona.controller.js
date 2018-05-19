@@ -79,6 +79,7 @@ export default {
                     sizeOfBottles: req.body.sizeOfBottles || carton.sizeOfBottles,
                     typeOfSize: req.body.typeOfSize || carton.typeOfSize,
                     price: req.body.price || carton.price,
+                    available: req.body.available || carton.available,
                     img: req.body.img || carton.img,
                     minimumNumberOnOrder: req.body.minimumNumberOnOrder || carton.minimumNumberOnOrder,
                 }

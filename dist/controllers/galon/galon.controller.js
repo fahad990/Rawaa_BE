@@ -224,6 +224,7 @@ exports.default = {
                                 $set: {
                                     size: req.body.size || galon.size,
                                     img: req.body.img || galon.img,
+                                    available: req.body.available || galon.available,
                                     priceOfBuying: req.body.priceOfBuying || galon.priceOfBuying,
                                     priceOfSubstitution: req.body.priceOfSubstitution || galon.priceOfSubstitution,
                                     minimumNumberOnOrder: req.body.minimumNumberOnOrder || galon.minimumNumberOnOrder
