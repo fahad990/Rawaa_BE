@@ -48,6 +48,12 @@ router.route('/orders/:orderId/delivered')
     checkBlockUser,
     OrderController.makeOrderDone)
 
+//make order canceled 
+router.route('/orders/:orderId/canceled')
+    .put(requireAuth,
+    checkBlockUser,
+    OrderController.canceleOrder)
+
 //get distance between 2 point locations
 router.route('/orders/pric-distance')
     .post(

@@ -834,6 +834,67 @@ exports.default = {
                 }
             }, _callee9, _this9, [[0, 22]]);
         }))();
+    },
+
+
+    //canceled order by customer 
+    canceleOrder: function canceleOrder(req, res, next) {
+        var _this10 = this;
+
+        return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10() {
+            var orderId, orderDetails, newOrder;
+            return regeneratorRuntime.wrap(function _callee10$(_context10) {
+                while (1) {
+                    switch (_context10.prev = _context10.next) {
+                        case 0:
+                            _context10.prev = 0;
+                            orderId = req.params.orderId;
+                            _context10.next = 4;
+                            return _order2.default.findById(orderId);
+
+                        case 4:
+                            orderDetails = _context10.sent;
+
+                            if (orderDetails) {
+                                _context10.next = 7;
+                                break;
+                            }
+
+                            return _context10.abrupt('return', res.status(404).end());
+
+                        case 7:
+                            if (!(orderDetails.status == "accepted" || orderDetails.status == "onTheWay")) {
+                                _context10.next = 9;
+                                break;
+                            }
+
+                            return _context10.abrupt('return', res.status(400).json({
+                                'message': "can't cancel order now"
+                            }));
+
+                        case 9:
+                            _context10.next = 11;
+                            return _order2.default.findByIdAndUpdate(orderId, { status: "canceled" }, { new: true });
+
+                        case 11:
+                            newOrder = _context10.sent;
+
+                            console.log(newOrder.status);
+                            return _context10.abrupt('return', res.status(204).end());
+
+                        case 16:
+                            _context10.prev = 16;
+                            _context10.t0 = _context10['catch'](0);
+
+                            next(_context10.t0);
+
+                        case 19:
+                        case 'end':
+                            return _context10.stop();
+                    }
+                }
+            }, _callee10, _this10, [[0, 16]]);
+        }))();
     }
 };
 //# sourceMappingURL=order.controller.js.map

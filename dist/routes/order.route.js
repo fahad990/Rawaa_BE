@@ -40,6 +40,9 @@ router.route('/orders/:orderId/on-the-Way').put(requireAuth, _checkBlockUser.che
 //make order done 
 router.route('/orders/:orderId/delivered').put(requireAuth, _checkBlockUser.checkBlockUser, _order2.default.makeOrderDone);
 
+//make order canceled 
+router.route('/orders/:orderId/canceled').put(requireAuth, _checkBlockUser.checkBlockUser, _order2.default.canceleOrder);
+
 //get distance between 2 point locations
 router.route('/orders/pric-distance').post(requireAuth, _checkBlockUser.checkBlockUser, _order2.default.validateBodyOfCalulatePrice(), _order2.default.calculatePriceOfDistance);
 exports.default = router;

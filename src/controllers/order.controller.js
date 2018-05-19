@@ -451,5 +451,26 @@ export default {
         }
     },
 
+    //canceled order by customer 
+    async canceleOrder(req, res, next) {
+        try {
+            let orderId = req.params.orderId;
+            let orderDetails = await Order.findById(orderId);
+            if (!orderDetails)
+                return res.status(404).end();
+            if (orderDetails.status == "accepted" || orderDetails.status == "onTheWay") {
+                return res.status(400).json({
+                    'message': "can't cancel order now"
+                })
+            }
+            let newOrder = await Order.findByIdAndUpdate(orderId, { status: "canceled" }, { new: true });
+            console.log(newOrder.status)
+            return res.status(204).end();
+
+        } catch (err) {
+            next(err)
+        }
+    },
+
 
 }
