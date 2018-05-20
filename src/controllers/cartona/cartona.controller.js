@@ -44,6 +44,9 @@ export default {
         let query = {}
         if (req.query.typeOfSize)
             query.typeOfSize = req.query.typeOfSize
+
+        if (req.query.available)
+            query.available = req.query.available
         try {
             let docsCount = await Cartona.count(query)
             let allDocs = await Cartona.find(query).populate('user')
@@ -109,12 +112,16 @@ export default {
     },
     //retrive all galons under one provider 
     async cartonsOfOneProvider(req, res, next) {
-        const limit = parseInt(req.query.limit) || 20;
+        const limit = parseInt(req.query.limit) || 200;
         const page = req.query.page || 1;
         const userId = req.params.userId;
         try {
-            let docsCount = await Cartona.count({ user: userId })
-            let allDocs = await Cartona.find({ user: userId })
+            let query = {}
+            if (req.query.available)
+                query.available = req.query.available
+            query.user = userId
+            let docsCount = await Cartona.count(query)
+            let allDocs = await Cartona.find(query)
                 .populate('user')
                 .skip((page - 1) * limit).limit(limit).sort({ creationDate: -1 })
             return res.send(new ApiResponse(

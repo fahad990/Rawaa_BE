@@ -38,10 +38,12 @@ export default {
 
     //retrive all galons 
     async allGalons(req, res, next) {
-        const limit = parseInt(req.query.limit) || 20;
+        const limit = parseInt(req.query.limit) || 200;
         const page = req.query.page || 1;
         let query = {}
         try {
+            if (req.query.available)
+                query.available = req.query.available
             let docsCount = await Galon.count(query)
             let allDocs = await Galon.find(query).populate('user')
                 .skip((page * limit) - limit).limit(limit).sort({ creationDate: -1 });
@@ -82,7 +84,7 @@ export default {
                 $set: {
                     size: req.body.size || galon.size,
                     img: req.body.img || galon.img,
-                    available : req.body.available || galon.available,
+                    available: req.body.available || galon.available,
                     priceOfBuying: req.body.priceOfBuying || galon.priceOfBuying,
                     priceOfSubstitution: req.body.priceOfSubstitution || galon.priceOfSubstitution,
                     minimumNumberOnOrder: req.body.minimumNumberOnOrder || galon.minimumNumberOnOrder,
@@ -98,12 +100,16 @@ export default {
 
     //retrive all galons under one provider 
     async galonsOfOneProvider(req, res, next) {
-        const limit = parseInt(req.query.limit) || 20;
+        const limit = parseInt(req.query.limit) || 200;
         const page = req.query.page || 1;
         const userId = req.params.userId;
         try {
-            let docsCount = await Galon.count({ user: userId })
-            let allDocs = await Galon.find({ user: userId })
+            let query = {}
+            if (req.query.available)
+                query.available = req.query.available
+            query.user = userId
+            let docsCount = await Galon.count(query)
+            let allDocs = await Galon.find(query)
                 .populate('user')
                 .skip((page - 1) * limit).limit(limit).sort({ creationDate: -1 })
             return res.send(new ApiResponse(

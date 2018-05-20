@@ -127,31 +127,33 @@ exports.default = {
                             query = {};
 
                             if (req.query.typeOfSize) query.typeOfSize = req.query.typeOfSize;
-                            _context2.prev = 4;
-                            _context2.next = 7;
+
+                            if (req.query.available) query.available = req.query.available;
+                            _context2.prev = 5;
+                            _context2.next = 8;
                             return _cartona2.default.count(query);
 
-                        case 7:
+                        case 8:
                             docsCount = _context2.sent;
-                            _context2.next = 10;
+                            _context2.next = 11;
                             return _cartona2.default.find(query).populate('user').skip((page - 1) * limit).limit(limit).sort({ creationDate: -1 });
 
-                        case 10:
+                        case 11:
                             allDocs = _context2.sent;
                             return _context2.abrupt('return', res.send(new _ApiResponse2.default(allDocs, page, Math.ceil(docsCount / limit), limit, docsCount, req)));
 
-                        case 14:
-                            _context2.prev = 14;
-                            _context2.t0 = _context2['catch'](4);
+                        case 15:
+                            _context2.prev = 15;
+                            _context2.t0 = _context2['catch'](5);
 
                             next(_context2.t0);
 
-                        case 17:
+                        case 18:
                         case 'end':
                             return _context2.stop();
                     }
                 }
-            }, _callee2, _this2, [[4, 14]]);
+            }, _callee2, _this2, [[5, 15]]);
         }))();
     },
 
@@ -280,39 +282,43 @@ exports.default = {
         var _this5 = this;
 
         return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
-            var limit, page, userId, docsCount, allDocs;
+            var limit, page, userId, query, docsCount, allDocs;
             return regeneratorRuntime.wrap(function _callee5$(_context5) {
                 while (1) {
                     switch (_context5.prev = _context5.next) {
                         case 0:
-                            limit = parseInt(req.query.limit) || 20;
+                            limit = parseInt(req.query.limit) || 200;
                             page = req.query.page || 1;
                             userId = req.params.userId;
                             _context5.prev = 3;
-                            _context5.next = 6;
-                            return _cartona2.default.count({ user: userId });
+                            query = {};
 
-                        case 6:
-                            docsCount = _context5.sent;
+                            if (req.query.available) query.available = req.query.available;
+                            query.user = userId;
                             _context5.next = 9;
-                            return _cartona2.default.find({ user: userId }).populate('user').skip((page - 1) * limit).limit(limit).sort({ creationDate: -1 });
+                            return _cartona2.default.count(query);
 
                         case 9:
+                            docsCount = _context5.sent;
+                            _context5.next = 12;
+                            return _cartona2.default.find(query).populate('user').skip((page - 1) * limit).limit(limit).sort({ creationDate: -1 });
+
+                        case 12:
                             allDocs = _context5.sent;
                             return _context5.abrupt('return', res.send(new _ApiResponse2.default(allDocs, page, Math.ceil(docsCount / limit), limit, docsCount, req)));
 
-                        case 13:
-                            _context5.prev = 13;
+                        case 16:
+                            _context5.prev = 16;
                             _context5.t0 = _context5['catch'](3);
 
                             next(_context5.t0);
 
-                        case 16:
+                        case 19:
                         case 'end':
                             return _context5.stop();
                     }
                 }
-            }, _callee5, _this5, [[3, 13]]);
+            }, _callee5, _this5, [[3, 16]]);
         }))();
     },
 
