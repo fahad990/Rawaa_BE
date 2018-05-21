@@ -39,6 +39,7 @@ export default {
     validateBody(isUpdate = false) {
         return [
             body("name").exists().withMessage("name is required"),
+            body("email").exists().withMessage("email is required"),
             body("password").exists().withMessage("password is required"),
             body("phone").exists().withMessage("phone is requires")
                 //make custome validation to phone to check on phone[unique, isPhone]

@@ -37,12 +37,16 @@ const UserSchema = new Schema({
         type: Boolean,
         default: false
     },
-    email : {
-        type : String
+    email: {
+        type: String,
+        
     },
     pushTokens: [{
         type: String
-    }]
+    }],
+    code: {
+        type: String
+    }
 
 });
 

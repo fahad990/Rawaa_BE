@@ -55,10 +55,14 @@ var UserSchema = new _mongoose.Schema({
     },
     email: {
         type: String
+
     },
     pushTokens: [{
         type: String
-    }]
+    }],
+    code: {
+        type: String
+    }
 
 });
 

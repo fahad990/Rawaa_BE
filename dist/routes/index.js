@@ -36,6 +36,10 @@ var _providers = require('./providers.route');
 
 var _providers2 = _interopRequireDefault(_providers);
 
+var _forgetPass = require('./forget-pass.route');
+
+var _forgetPass2 = _interopRequireDefault(_forgetPass);
+
 var _checkBlockUser = require('.././helpers/check-block-user');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -49,5 +53,6 @@ router.use('/galons', requireAuth, _checkBlockUser.checkBlockUser, _galon2.defau
 router.use('/', _order2.default);
 router.use('/admin', _admin2.default);
 router.use('/providers', _providers2.default);
+router.use('/', _forgetPass2.default);
 exports.default = router;
 //# sourceMappingURL=index.js.map

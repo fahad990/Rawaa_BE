@@ -72,7 +72,7 @@ exports.default = {
 
         var isUpdate = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
-        return [(0, _check.body)("name").exists().withMessage("name is required"), (0, _check.body)("password").exists().withMessage("password is required"), (0, _check.body)("phone").exists().withMessage("phone is requires")
+        return [(0, _check.body)("name").exists().withMessage("name is required"), (0, _check.body)("email").exists().withMessage("email is required"), (0, _check.body)("password").exists().withMessage("password is required"), (0, _check.body)("phone").exists().withMessage("phone is requires")
         //make custome validation to phone to check on phone[unique, isPhone]
         .custom(function () {
             var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(value, _ref2) {
