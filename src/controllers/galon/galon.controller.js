@@ -42,8 +42,7 @@ export default {
         const page = req.query.page || 1;
         let query = {}
         try {
-            if (req.query.available)
-                query.available = req.query.available
+            query.available = true
             let docsCount = await Galon.count(query)
             let allDocs = await Galon.find(query).populate('user')
                 .skip((page * limit) - limit).limit(limit).sort({ creationDate: -1 });
@@ -105,8 +104,7 @@ export default {
         const userId = req.params.userId;
         try {
             let query = {}
-            if (req.query.available)
-                query.available = req.query.available
+            query.available = true
             query.user = userId
             let docsCount = await Galon.count(query)
             let allDocs = await Galon.find(query)

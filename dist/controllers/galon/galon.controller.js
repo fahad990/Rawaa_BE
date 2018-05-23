@@ -117,7 +117,7 @@ exports.default = {
                             query = {};
                             _context2.prev = 3;
 
-                            if (req.query.available) query.available = req.query.available;
+                            query.available = true;
                             _context2.next = 7;
                             return _galon2.default.count(query);
 
@@ -273,7 +273,7 @@ exports.default = {
                             _context5.prev = 3;
                             query = {};
 
-                            if (req.query.available) query.available = req.query.available;
+                            query.available = true;
                             query.user = userId;
                             _context5.next = 9;
                             return _galon2.default.count(query);

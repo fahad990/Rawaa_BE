@@ -44,9 +44,7 @@ export default {
         let query = {}
         if (req.query.typeOfSize)
             query.typeOfSize = req.query.typeOfSize
-
-        if (req.query.available)
-            query.available = req.query.available
+        query.available = true
         try {
             let docsCount = await Cartona.count(query)
             let allDocs = await Cartona.find(query).populate('user')
@@ -117,8 +115,7 @@ export default {
         const userId = req.params.userId;
         try {
             let query = {}
-            if (req.query.available)
-                query.available = req.query.available
+            query.available = true
             query.user = userId
             let docsCount = await Cartona.count(query)
             let allDocs = await Cartona.find(query)

@@ -127,8 +127,7 @@ exports.default = {
                             query = {};
 
                             if (req.query.typeOfSize) query.typeOfSize = req.query.typeOfSize;
-
-                            if (req.query.available) query.available = req.query.available;
+                            query.available = true;
                             _context2.prev = 5;
                             _context2.next = 8;
                             return _cartona2.default.count(query);
@@ -293,7 +292,7 @@ exports.default = {
                             _context5.prev = 3;
                             query = {};
 
-                            if (req.query.available) query.available = req.query.available;
+                            query.available = true;
                             query.user = userId;
                             _context5.next = 9;
                             return _cartona2.default.count(query);
