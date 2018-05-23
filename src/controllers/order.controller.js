@@ -235,7 +235,8 @@ export default {
             console.log(d);
             //fetch price for each km
             let price = await Price.findOne();
-            let cost = d * price.price;
+            let cost = Math.ceil(d * price.price);
+
             return res.status(200).json({
                 "cost": cost,
                 "distance": d,

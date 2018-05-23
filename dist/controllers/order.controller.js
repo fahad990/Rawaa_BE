@@ -345,7 +345,7 @@ exports.default = {
 
                         case 17:
                             price = _context3.sent;
-                            cost = d * price.price;
+                            cost = Math.ceil(d * price.price);
                             return _context3.abrupt('return', res.status(200).json({
                                 "cost": cost,
                                 "distance": d,
