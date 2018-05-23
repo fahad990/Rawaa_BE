@@ -51,7 +51,7 @@ var UserSchema = new _mongoose.Schema({
     },
     active: {
         type: Boolean,
-        default: false
+        default: true
     },
     email: {
         type: String

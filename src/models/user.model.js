@@ -35,11 +35,11 @@ const UserSchema = new Schema({
     },
     active: {
         type: Boolean,
-        default: false
+        default: true
     },
     email: {
         type: String,
-        
+
     },
     pushTokens: [{
         type: String

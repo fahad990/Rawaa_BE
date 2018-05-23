@@ -39,7 +39,13 @@ export default {
     validateBody(isUpdate = false) {
         return [
             body("name").exists().withMessage("name is required"),
-            body("email").exists().withMessage("email is required"),
+            body("email").exists().withMessage("Email is required")
+                .isEmail().withMessage("Email is invalid syntax")
+                .custom(async (value, { req }) => {
+                    let user = await User.findOne({ email: value });
+                    if (!user)
+                        return true
+                }).withMessage('email exist before'),
             body("password").exists().withMessage("password is required"),
             body("phone").exists().withMessage("phone is requires")
                 //make custome validation to phone to check on phone[unique, isPhone]
@@ -66,6 +72,10 @@ export default {
             if (req.file) {
                 req.body.img = await toImgUrl(req.file)
             }
+            
+            if (req.body.type == "PROVIDER")
+                req.body.active = false
+
             let createdUser = await User.create(req.body);
             res.status(201).send({ user: createdUser, token: generateToken(createdUser.id) });
         } catch (err) {
