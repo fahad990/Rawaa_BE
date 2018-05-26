@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import { body, validationResult } from 'express-validator/check';
 import ApiError from '../helpers/ApiError'
 import ApiResponse from '../helpers/ApiResponse'
+import { send } from '../services/push-notifications';
 
 export default {
     async createMessage(req, res, next) {
@@ -16,6 +17,12 @@ export default {
                 targetUser: targetId
             }
             let newMessage = await Message.create(object);
+
+            //send notifications
+            let title = "رسالة من الادارة";
+            let body = newMessage.text;
+            send(newMessage.targetUser, title, body)
+
             return res.status(201).json(newMessage);
         } catch (err) {
             next(err)

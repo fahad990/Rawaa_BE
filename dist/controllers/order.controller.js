@@ -336,7 +336,7 @@ exports.default = {
                             dLon = deg2rad(lang2 - lang1);
                             a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
                             c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-                            d = R * c; // Distance in km
+                            d = Math.ceil(R * c); // Distance in km
 
                             console.log(d);
                             //fetch price for each km

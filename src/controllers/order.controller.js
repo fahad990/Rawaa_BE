@@ -231,7 +231,7 @@ export default {
                 Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
                 Math.sin(dLon / 2) * Math.sin(dLon / 2);
             let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-            let d = R * c; // Distance in km
+            let d = Math.ceil(R * c); // Distance in km
             console.log(d);
             //fetch price for each km
             let price = await Price.findOne();
