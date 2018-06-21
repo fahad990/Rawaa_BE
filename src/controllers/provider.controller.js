@@ -194,6 +194,7 @@ export default {
             if (to)
                 query.creationDate = { ...query.creationDate, $lte: +to }
             query.provider = providerId;
+            query.status = "delivered";
             console.log(req.query)
             let allOrders = await Order.find(query);
             let totalProductPrice = allOrders.reduce((accumulator, currentValue) => accumulator + currentValue.price, 0);

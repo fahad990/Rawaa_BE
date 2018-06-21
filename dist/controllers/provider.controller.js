@@ -290,11 +290,12 @@ exports.default = {
                             if (from) query.creationDate = { $gte: +from };
                             if (to) query.creationDate = _extends({}, query.creationDate, { $lte: +to });
                             query.provider = providerId;
+                            query.status = "delivered";
                             console.log(req.query);
-                            _context4.next = 10;
+                            _context4.next = 11;
                             return _order2.default.find(query);
 
-                        case 10:
+                        case 11:
                             allOrders = _context4.sent;
                             totalProductPrice = allOrders.reduce(function (accumulator, currentValue) {
                                 return accumulator + currentValue.price;
@@ -313,18 +314,18 @@ exports.default = {
                                 numberOfOrders: numberOfOrders
                             }));
 
-                        case 19:
-                            _context4.prev = 19;
+                        case 20:
+                            _context4.prev = 20;
                             _context4.t0 = _context4['catch'](0);
 
                             next(_context4.t0);
 
-                        case 22:
+                        case 23:
                         case 'end':
                             return _context4.stop();
                     }
                 }
-            }, _callee4, _this4, [[0, 19]]);
+            }, _callee4, _this4, [[0, 20]]);
         }))();
     }
 };
