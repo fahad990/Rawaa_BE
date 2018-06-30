@@ -183,7 +183,10 @@ exports.default = {
 
                         case 8:
 
-                            if (req.body.type == "PROVIDER") req.body.active = false;
+                            if (req.body.type == "PROVIDER") {
+                                req.body.active = false;
+                                req.body.img = "https://cdn1.iconfinder.com/data/icons/user-pictures/100/supportmale-512.png";
+                            }
 
                             _context3.next = 11;
                             return _user2.default.create(req.body);

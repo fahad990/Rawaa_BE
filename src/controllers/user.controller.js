@@ -73,8 +73,11 @@ export default {
                 req.body.img = await toImgUrl(req.file)
             }
             
-            if (req.body.type == "PROVIDER")
+            if (req.body.type == "PROVIDER"){
                 req.body.active = false
+                req.body.img = "https://cdn1.iconfinder.com/data/icons/user-pictures/100/supportmale-512.png"
+            }
+                
 
             let createdUser = await User.create(req.body);
             res.status(201).send({ user: createdUser, token: generateToken(createdUser.id) });
