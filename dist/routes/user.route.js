@@ -50,7 +50,7 @@ router.use(_pushNotification2.default);
 
 router.route('/signup').post((0, _multer.multerSaveTo)('users').single('img'), _user2.default.validateBody(), _user2.default.signUp);
 
-router.post("/signin", requireSignIn, _user2.default.signin);
+router.post("/signin", requireSignIn, _checkBlockUser.checkBlockUser, _user2.default.signin);
 
 router.route("/users/:userId/galons").get(requireAuth, _galon2.default.galonsOfOneProvider);
 

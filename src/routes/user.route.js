@@ -22,7 +22,7 @@ router.route('/signup')
     UserController.signUp
     )
 
-router.post("/signin", requireSignIn, UserController.signin);
+router.post("/signin", requireSignIn, checkBlockUser, UserController.signin);
 
 router.route("/users/:userId/galons")
     .get(
