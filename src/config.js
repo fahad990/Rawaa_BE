@@ -1,5 +1,5 @@
 const config = {};
-config.mongoUrl = "mongodb://admin:admin@ds163119.mlab.com:63119/rawaa2"
+config.mongoUrl = "mongodb://admin:admin123@ds259241.mlab.com:59241/rawaa"
 config.jwtSecret = "App" ; // To be changed
 
 
