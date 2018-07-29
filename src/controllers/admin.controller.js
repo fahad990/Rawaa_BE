@@ -6,6 +6,8 @@ import ApiResponse from '../helpers/ApiResponse'
 import PriceKm from '../models/price-of-km.model';
 import Order from '../models/order.model'
 
+var _firebaseAdmin = require("firebase-admin");
+
 //KfQnPp9bNf2S2m6z
 export default {
     //create new order 
@@ -79,6 +81,16 @@ export default {
             if (!userDetails)
                 return next(new ApiError(404));
             let newUser = await User.findByIdAndUpdate(userId, { active: false }, { new: true });
+            console.log(' ASS')
+            var db = _firebaseAdmin.database();
+            var ref = db.ref("geofire/" + userId);
+            ref.remove().then(function() {
+              res.send({ status: 'ok' });
+            }).catch(function(error) {
+              console.log('Error deleting data:', error);
+              res.send({ status: 'error', error: error });
+            });
+
             return res.status(200).json(newUser);
         } catch (err) {
             next(err)

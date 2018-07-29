@@ -34,6 +34,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
+var _firebaseAdmin = require("firebase-admin");
+
 //KfQnPp9bNf2S2m6z
 exports.default = {
     //create new order 
@@ -238,7 +240,7 @@ exports.default = {
         var _this5 = this;
 
         return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
-            var userId, userDetails, newUser;
+            var userId, userDetails, newUser, db, ref;
             return regeneratorRuntime.wrap(function _callee5$(_context5) {
                 while (1) {
                     switch (_context5.prev = _context5.next) {
@@ -273,20 +275,32 @@ exports.default = {
 
                         case 11:
                             newUser = _context5.sent;
+
+                            console.log(' ASS');
+                            db = _firebaseAdmin.database();
+                            ref = db.ref("geofire/" + userId);
+
+                            ref.remove().then(function () {
+                                res.send({ status: 'ok' });
+                            }).catch(function (error) {
+                                console.log('Error deleting data:', error);
+                                res.send({ status: 'error', error: error });
+                            });
+
                             return _context5.abrupt('return', res.status(200).json(newUser));
 
-                        case 15:
-                            _context5.prev = 15;
+                        case 19:
+                            _context5.prev = 19;
                             _context5.t0 = _context5['catch'](0);
 
                             next(_context5.t0);
 
-                        case 18:
+                        case 22:
                         case 'end':
                             return _context5.stop();
                     }
                 }
-            }, _callee5, _this5, [[0, 15]]);
+            }, _callee5, _this5, [[0, 19]]);
         }))();
     },
 

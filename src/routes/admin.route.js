@@ -9,8 +9,8 @@ const requireAuth = passport.authenticate('jwt', { session: false });
 
 router.route('/users')
     .get(
-    requireAuth,
-    AdminController.allUsers)
+        requireAuth,
+        AdminController.allUsers)
 router.route('/counts-numbers')
     .get(AdminController.adminStatisttics)
 
